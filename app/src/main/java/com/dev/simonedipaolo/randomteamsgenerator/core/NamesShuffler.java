@@ -1,6 +1,6 @@
 package com.dev.simonedipaolo.randomteamsgenerator.core;
 
-import com.google.android.gms.common.util.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +44,7 @@ public class NamesShuffler {
                     List<String> tempNameList = new ArrayList<>();
 
                     for(int j=0; j<namesPerTeam; j++) {
-                        if (!CollectionUtils.isEmpty(names)) {
+                        if (CollectionUtils.isNotEmpty(names)) {
                             int randomNameIndex = random.nextInt(names.size() + 1);
                             tempNameList.add(names.remove(randomNameIndex));
                         }

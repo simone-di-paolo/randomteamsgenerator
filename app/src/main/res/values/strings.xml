@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Wheel of Misfortune</string>
+
+    <!-- MAIN FRAGMENT STRINGS -->
+    <string name="add_name">Click the button to add a name</string>
+    <string name="add_button">ADD</string>
+
+    <!-- LIST NAMES ROW -->
+    <string name="temp_name">Name…</string>
+    <string name="delete_name_button">Delete Name button</string>
+    <string name="edit_name_button">Edit Name button</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

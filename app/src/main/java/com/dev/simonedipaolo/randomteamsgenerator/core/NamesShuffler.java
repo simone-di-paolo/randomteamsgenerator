@@ -32,7 +32,7 @@ public class NamesShuffler {
         howManyMissingNames = 0;
     }
 
-    private void generateTeams(boolean forceEvenWithMissingNames) {
+    public void generateTeams(boolean forceEvenWithMissingNames) {
         Collections.shuffle(names);
         if(names.size() > howManyTeams) {
             if (names.size() % howManyTeams == 0 || forceEvenWithMissingNames) {
@@ -65,5 +65,16 @@ public class NamesShuffler {
 
     public int getHowManyMissingNames() {
         return howManyMissingNames;
+    }
+
+
+    // SETTERS
+
+    public void setNames(List<String> names) {
+        this.names = names;
+    }
+
+    public void setHowManyTeams(int howManyTeams) {
+        this.howManyTeams = howManyTeams;
     }
 }

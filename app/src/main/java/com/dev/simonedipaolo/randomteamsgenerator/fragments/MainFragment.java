@@ -7,8 +7,8 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,9 +17,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
@@ -54,6 +51,7 @@ public class MainFragment extends Fragment {
         return v;
     }
 
+
     // alert dialog
     private AlertDialog.Builder createAddNameAlertDialog(Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -74,16 +72,21 @@ public class MainFragment extends Fragment {
 
                 NamesListFragment namesListFragment = new NamesListFragment();
                 Bundle args = new Bundle();
-                args.putSerializable(FIRST_PERSON_KEY, tempPerson);
+                args.putString(FIRST_PERSON_KEY, tempPerson.getName());
                 namesListFragment.setArguments(args);
-                FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
-                if(ObjectUtils.isNotEmpty(supportFragmentManager)) {
-                    supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragmentAnchor, namesListFragment)
-                            .addToBackStack(null)
-                            .commit();
+                FragmentActivity activity = getActivity();
+                if(ObjectUtils.isNotEmpty(activity)) {
+                    FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
+                    if (ObjectUtils.isNotEmpty(supportFragmentManager)) {
+                        supportFragmentManager.beginTransaction()
+                                .replace(R.id.fragmentAnchor, namesListFragment)
+                                .addToBackStack(null)
+                                .commit();
+                    } else {
+                        Log.e("SUPPORT MANAGER IS NULL", "MainFragment");
+                    }
                 } else {
-                    Log.e("SOPPORT MANAGER IS NULL", "MainFragment");
+                    Log.e("activity it's null", "MainFragment");
                 }
             }
         });

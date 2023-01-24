@@ -27,7 +27,7 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class NamesListFragment extends Fragment {
+public class NamesListFragment extends Fragment implements PersonRecyclerViewAdapter.PersonEventListener {
 
     private static final String FIRST_PERSON_KEY = "first_person";
 
@@ -36,7 +36,8 @@ public class NamesListFragment extends Fragment {
 
     private PersonRecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
-    private Button button;
+    private Button addButton;
+    private Button generateTeamsButton;
 
 
     public NamesListFragment() {
@@ -55,14 +56,18 @@ public class NamesListFragment extends Fragment {
             personList.add(firstPerson);
         }
 
-        button = v.findViewById(R.id.addOtherNamesButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        addButton = v.findViewById(R.id.addOtherNamesButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog dialog = createAddNameAlertDialog(getActivity()).create();
                 dialog.show();
             }
         });
+
+        generateTeamsButton = v.findViewById(R.id.generateTeamsButton);
+        // disabling until there are at least 3 people
+        generateTeamsButton.setEnabled(false);
 
         // Inflate the layout for this fragment
         recyclerView = v.findViewById(R.id.namesRecyclerView);
@@ -72,7 +77,7 @@ public class NamesListFragment extends Fragment {
         linearLayout.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayout);
 
-        adapter = new PersonRecyclerViewAdapter(personList, getActivity());
+        adapter = new PersonRecyclerViewAdapter(personList, getActivity(), this);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         return v;
@@ -99,6 +104,9 @@ public class NamesListFragment extends Fragment {
                 if(personList != null) {
                     personList.add(tempPerson);
                     adapter.notifyDataSetChanged();
+                    if (personList.size() >= 3) {
+                        generateTeamsButton.setEnabled(true);
+                    }
                 }
             }
         });
@@ -112,4 +120,12 @@ public class NamesListFragment extends Fragment {
         return builder;
     }
 
+    /**
+     * Method implemented from inner interface of PersonEventListener
+     * that make easy to disable GENERATE TEAMS button from the adapter
+     */
+    @Override
+    public void disableGenerateTeams() {
+        generateTeamsButton.setEnabled(false);
+    }
 }

@@ -3,6 +3,7 @@ package com.dev.simonedipaolo.randomteamsgenerator.utils;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
+import com.dev.simonedipaolo.randomteamsgenerator.fragments.MainFragment;
+import com.dev.simonedipaolo.randomteamsgenerator.fragments.NamesListFragment;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
+
+import java.util.EventListener;
 import java.util.List;
 
 /**
@@ -27,10 +37,12 @@ public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecycl
 
     private List<Person> personList;
     private Context context;
+    private PersonEventListener listener;
 
-    public PersonRecyclerViewAdapter(List<Person> personList, Context context) {
+    public PersonRecyclerViewAdapter(List<Person> personList, Context context, PersonEventListener listener) {
         this.personList = personList;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -49,9 +61,7 @@ public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecycl
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Person person = personList.get(position);
         holder.personName.setText(person.getName());
-
-        holder.editImageButton.setImageResource(R.drawable.ic_baseline_edit_24);
-        holder.editImageButton.setOnClickListener(new View.OnClickListener() {
+        holder.personName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alertDialog = editNameAlertDialog(holder.getLayoutPosition());
@@ -65,6 +75,14 @@ public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecycl
             public void onClick(View view) {
                 personList.remove(holder.getLayoutPosition());
                 notifyItemRemoved(holder.getLayoutPosition());
+
+                if(CollectionUtils.isEmpty(personList)) {
+                    changeFragment(new MainFragment());
+                } else {
+                    if(personList.size() < 3) {
+                        listener.disableGenerateTeams();
+                    }
+                }
             }
         });
 
@@ -78,13 +96,11 @@ public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecycl
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private AppCompatTextView personName;
-        private AppCompatImageButton editImageButton;
         private AppCompatImageButton deleteImageButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             personName = itemView.findViewById(R.id.nameTextView);
-            editImageButton = itemView.findViewById(R.id.editButton);
             deleteImageButton = itemView.findViewById(R.id.deleteButton);
         }
 
@@ -122,5 +138,25 @@ public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecycl
         });
 
         return builder;
+    }
+
+    private void changeFragment(Fragment fragment) {
+        FragmentActivity activity = (FragmentActivity) context;
+        if(ObjectUtils.isNotEmpty(activity)) {
+            FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
+            if (ObjectUtils.isNotEmpty(supportFragmentManager)) {
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentAnchor, fragment)
+                        .commit();
+            } else {
+                Log.e("SUPPORT MANAGER IS NULL", "MainFragment");
+            }
+        } else {
+            Log.e("activity it's null", "MainFragment");
+        }
+    }
+
+    public interface PersonEventListener {
+        void disableGenerateTeams();
     }
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.dev.simonedipaolo.randomteamsgenerator.fragments.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_namesListFragment"
+            app:destination="@id/namesListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/namesListFragment"
+        android:name="com.dev.simonedipaolo.randomteamsgenerator.fragments.NamesListFragment"
+        android:label="fragment_generated_teams"
+        tools:layout="@layout/fragment_generated_teams" >
+        <action
+            android:id="@+id/action_namesListFragment_to_generatedTeamsFragment"
+            app:destination="@id/generatedTeamsFragment" />
+        <argument
+            android:name="first_person"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/generatedTeamsFragment"
+        android:name="com.dev.simonedipaolo.randomteamsgenerator.fragments.GeneratedTeamsFragment"
+        android:label="GeneratedTeamsFragment" >
+        <argument
+            android:name="personList"
+            app:argType="com.dev.simonedipaolo.randomteamsgenerator.models.Person[]" />
+    </fragment>
+</navigation>

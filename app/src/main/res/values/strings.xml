@@ -13,6 +13,10 @@
     <!-- FRAGMENT NAMES LIST -->
     <string name="generate_teams">GENERATE TEAMS</string>
 
+    <!-- FRAGMENT NAMES LIST -->
+    <string name="clear_button_text">CLEAR</string>
+    <string name="retry_button_text">RE-GENERATE</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

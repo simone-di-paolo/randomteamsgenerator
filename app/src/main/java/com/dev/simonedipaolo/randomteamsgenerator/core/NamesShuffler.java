@@ -1,5 +1,7 @@
 package com.dev.simonedipaolo.randomteamsgenerator.core;
 
+import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
+
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
@@ -12,10 +14,10 @@ import java.util.Random;
  */
 public class NamesShuffler {
 
-    private List<String> names;
+    private List<Person> names;
     private int howManyTeams;
 
-    private List<List<String>> teams;
+    private List<List<Person>> teams;
     private int howManyMissingNames;
 
     public NamesShuffler() {
@@ -25,7 +27,7 @@ public class NamesShuffler {
         howManyMissingNames = 0;
     }
 
-    public NamesShuffler(List<String> names, int howManyTeams) {
+    public NamesShuffler(List<Person> names, int howManyTeams) {
         this.names = names;
         this.howManyTeams = howManyTeams;
         teams = new ArrayList<>();
@@ -37,15 +39,15 @@ public class NamesShuffler {
         if(names.size() > howManyTeams) {
             if (names.size() % howManyTeams == 0 || forceEvenWithMissingNames) {
                 // teams that needs to be created
-                int namesPerTeam = names.size() / howManyTeams;
+                int namesPerTeam = names.size() % howManyTeams;
                 Random random = new Random();
 
                 for(int i=0; i<howManyTeams; i++) {
-                    List<String> tempNameList = new ArrayList<>();
+                    List<Person> tempNameList = new ArrayList<>();
 
                     for(int j=0; j<namesPerTeam; j++) {
                         if (CollectionUtils.isNotEmpty(names)) {
-                            int randomNameIndex = random.nextInt(names.size() + 1);
+                            int randomNameIndex = random.nextInt(names.size());
                             tempNameList.add(names.remove(randomNameIndex));
                         }
                     }
@@ -59,7 +61,7 @@ public class NamesShuffler {
 
     // GETTERS
 
-    public List<List<String>> getTeams() {
+    public List<List<Person>> getTeams() {
         return teams;
     }
 
@@ -70,7 +72,7 @@ public class NamesShuffler {
 
     // SETTERS
 
-    public void setNames(List<String> names) {
+    public void setNames(List<Person> names) {
         this.names = names;
     }
 

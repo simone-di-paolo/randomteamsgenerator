@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -21,13 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.fragments.MainFragment;
-import com.dev.simonedipaolo.randomteamsgenerator.fragments.NamesListFragment;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.util.EventListener;
 import java.util.List;
 
 /**
@@ -39,7 +36,7 @@ public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecycl
     private Context context;
     private PersonEventListener listener;
 
-    public PersonRecyclerViewAdapter(List<Person> personList, Context context, PersonEventListener listener) {
+    public PersonRecyclerViewAdapter(Context context, List<Person> personList, PersonEventListener listener) {
         this.personList = personList;
         this.context = context;
         this.listener = listener;
@@ -77,7 +74,8 @@ public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecycl
                 notifyItemRemoved(holder.getLayoutPosition());
 
                 if(CollectionUtils.isEmpty(personList)) {
-                    changeFragment(new MainFragment());
+                    Utils.replaceFragment((FragmentActivity) context, new MainFragment(), false);
+                    //changeFragment(new MainFragment());
                 } else {
                     if(personList.size() < 3) {
                         listener.disableGenerateTeams();
@@ -100,7 +98,7 @@ public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecycl
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            personName = itemView.findViewById(R.id.nameTextView);
+            personName = itemView.findViewById(R.id.teamNameTextView);
             deleteImageButton = itemView.findViewById(R.id.deleteButton);
         }
 
@@ -146,7 +144,7 @@ public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecycl
             FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
             if (ObjectUtils.isNotEmpty(supportFragmentManager)) {
                 supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentAnchor, fragment)
+                        .replace(R.id.nav_host_fragment, fragment)
                         .commit();
             } else {
                 Log.e("SUPPORT MANAGER IS NULL", "MainFragment");

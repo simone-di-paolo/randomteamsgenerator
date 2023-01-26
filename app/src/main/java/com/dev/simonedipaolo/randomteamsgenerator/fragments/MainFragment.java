@@ -5,10 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,13 +23,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
+import com.dev.simonedipaolo.randomteamsgenerator.fragments.MainFragmentDirections;
+import com.dev.simonedipaolo.randomteamsgenerator.fragments.NamesListFragmentDirections;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
+import com.dev.simonedipaolo.randomteamsgenerator.utils.Utils;
 
 import org.apache.commons.lang3.ObjectUtils;
 
 public class MainFragment extends Fragment {
 
     private static final String FIRST_PERSON_KEY = "first_person";
+
+    private NavController navController;
 
     public MainFragment() {
         // Required empty public constructor
@@ -40,6 +49,10 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
+        NavHostFragment navHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager()
+                .findFragmentById(R.id.nav_host_fragment);
+        navController = navHostFragment.getNavController();
+        //navController = Navigation.findNavController(v);
         Button addNameButton = v.findViewById(R.id.addNameButton);
         addNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,9 +61,10 @@ public class MainFragment extends Fragment {
                 dialog.show();
             }
         });
+
+
         return v;
     }
-
 
     // alert dialog
     private AlertDialog.Builder createAddNameAlertDialog(Context context) {
@@ -70,24 +84,9 @@ public class MainFragment extends Fragment {
                 String personName = input.getText().toString();
                 Person tempPerson = new Person(personName);
 
-                NamesListFragment namesListFragment = new NamesListFragment();
-                Bundle args = new Bundle();
-                args.putString(FIRST_PERSON_KEY, tempPerson.getName());
-                namesListFragment.setArguments(args);
-                FragmentActivity activity = getActivity();
-                if(ObjectUtils.isNotEmpty(activity)) {
-                    FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
-                    if (ObjectUtils.isNotEmpty(supportFragmentManager)) {
-                        supportFragmentManager.beginTransaction()
-                                .replace(R.id.fragmentAnchor, namesListFragment)
-                                .addToBackStack(null)
-                                .commit();
-                    } else {
-                        Log.e("SUPPORT MANAGER IS NULL", "MainFragment");
-                    }
-                } else {
-                    Log.e("activity it's null", "MainFragment");
-                }
+                MainFragmentDirections.ActionMainFragmentToNamesListFragment action =
+                        MainFragmentDirections.actionMainFragmentToNamesListFragment(tempPerson.getName());
+                navController.navigate(action);
             }
         });
 

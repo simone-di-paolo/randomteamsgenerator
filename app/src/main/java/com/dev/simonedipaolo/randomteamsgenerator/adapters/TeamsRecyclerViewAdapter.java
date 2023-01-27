@@ -1,4 +1,4 @@
-package com.dev.simonedipaolo.randomteamsgenerator.utils;
+package com.dev.simonedipaolo.randomteamsgenerator.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -16,8 +16,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
-import com.dev.simonedipaolo.randomteamsgenerator.core.Flag;
-import com.dev.simonedipaolo.randomteamsgenerator.core.RandomFlagGenerator;
+import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Flag;
+import com.dev.simonedipaolo.randomteamsgenerator.core.bean.TeamName;
+import com.dev.simonedipaolo.randomteamsgenerator.core.utils.RandomFlagGenerator;
+import com.dev.simonedipaolo.randomteamsgenerator.core.utils.TeamNameGenerator;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -34,7 +36,9 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
     private List<List<Person>> teams;
 
     private RandomFlagGenerator randomFlagGenerator;
-    List<Flag> flags;
+    private List<Flag> flags;
+    private TeamNameGenerator teamNameGenerator;
+    private List<TeamName> teamNameList;
 
     public TeamsRecyclerViewAdapter(Context context, List<List<Person>> teams, boolean makeCenterColorWhite) {
         this.context = context;
@@ -52,7 +56,8 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
         );
 
         flags = randomFlagGenerator.getFlags();
-
+        teamNameGenerator = new TeamNameGenerator(context);
+        teamNameList = teamNameGenerator.getTeamFullNames();
         return new ViewHolder(v);
     }
 
@@ -69,7 +74,9 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
         String teamNames = createStringWithNames(position);
         holder.membersNameTextView.setText(teamNames);
 
-        holder.teamNumber.setText(String.valueOf(position+1));
+        holder.teamNumberTextView.setText(String.valueOf(position+1));
+
+        holder.teamNameTextView.setText(teamNameList.get(position).getTeamFullName().toUpperCase());
     }
 
     @Override
@@ -84,7 +91,9 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
         private Button flagThirdButton;
 
         private AppCompatTextView membersNameTextView;
-        private AppCompatTextView teamNumber;
+        private AppCompatTextView teamNumberTextView;
+
+        private AppCompatTextView teamNameTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,7 +107,8 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
             flagThirdButton.setClickable(false);
 
             membersNameTextView = itemView.findViewById(R.id.memeberNamesTextView);
-            teamNumber = itemView.findViewById(R.id.teamNumberTextView);
+            teamNumberTextView = itemView.findViewById(R.id.teamNumberTextView);
+            teamNameTextView = itemView.findViewById(R.id.teamNameTextView);
         }
 
     }

@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
-import com.dev.simonedipaolo.randomteamsgenerator.utils.PersonRecyclerViewAdapter;
+import com.dev.simonedipaolo.randomteamsgenerator.adapters.PersonRecyclerViewAdapter;
 
 import org.apache.commons.lang3.ObjectUtils;
 

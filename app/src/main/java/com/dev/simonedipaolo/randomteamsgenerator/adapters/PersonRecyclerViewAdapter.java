@@ -1,4 +1,4 @@
-package com.dev.simonedipaolo.randomteamsgenerator.utils;
+package com.dev.simonedipaolo.randomteamsgenerator.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
+import com.dev.simonedipaolo.randomteamsgenerator.core.utils.Utils;
 import com.dev.simonedipaolo.randomteamsgenerator.fragments.MainFragment;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 

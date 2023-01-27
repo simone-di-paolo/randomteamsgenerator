@@ -33,5 +33,8 @@
         <argument
             android:name="personList"
             app:argType="com.dev.simonedipaolo.randomteamsgenerator.models.Person[]" />
+        <argument
+            android:name="how_many_teams"
+            app:argType="integer" />
     </fragment>
 </navigation>

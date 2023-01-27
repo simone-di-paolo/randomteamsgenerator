@@ -1,9 +1,9 @@
-package com.dev.simonedipaolo.randomteamsgenerator.core;
+package com.dev.simonedipaolo.randomteamsgenerator.core.utils;
 
-import java.sql.Array;
+import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Flag;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;

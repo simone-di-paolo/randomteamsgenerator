@@ -5,16 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +18,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
-import com.dev.simonedipaolo.randomteamsgenerator.fragments.MainFragmentDirections;
-import com.dev.simonedipaolo.randomteamsgenerator.fragments.NamesListFragmentDirections;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
-import com.dev.simonedipaolo.randomteamsgenerator.utils.Utils;
-
-import org.apache.commons.lang3.ObjectUtils;
 
 public class MainFragment extends Fragment {
 

@@ -2,8 +2,6 @@ package com.dev.simonedipaolo.randomteamsgenerator.fragments;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,10 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
-import com.dev.simonedipaolo.randomteamsgenerator.core.NamesShuffler;
+import com.dev.simonedipaolo.randomteamsgenerator.core.utils.NamesShuffler;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
-import com.dev.simonedipaolo.randomteamsgenerator.utils.PersonRecyclerViewAdapter;
-import com.dev.simonedipaolo.randomteamsgenerator.utils.TeamsRecyclerViewAdapter;
+import com.dev.simonedipaolo.randomteamsgenerator.adapters.TeamsRecyclerViewAdapter;
 
 import org.apache.commons.lang3.ObjectUtils;
 

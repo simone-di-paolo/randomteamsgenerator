@@ -1,4 +1,4 @@
-package com.dev.simonedipaolo.randomteamsgenerator.core;
+package com.dev.simonedipaolo.randomteamsgenerator.core.bean;
 
 /**
  * Created by Simone Di Paolo on 27/01/2023.

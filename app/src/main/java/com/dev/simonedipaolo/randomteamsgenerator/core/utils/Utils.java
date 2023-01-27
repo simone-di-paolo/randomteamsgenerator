@@ -1,4 +1,4 @@
-package com.dev.simonedipaolo.randomteamsgenerator.utils;
+package com.dev.simonedipaolo.randomteamsgenerator.core.utils;
 
 import android.util.Log;
 import android.view.View;

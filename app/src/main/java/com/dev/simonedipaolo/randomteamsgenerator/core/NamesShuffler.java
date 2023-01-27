@@ -1,8 +1,11 @@
 package com.dev.simonedipaolo.randomteamsgenerator.core;
 
+import android.util.Log;
+
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,30 +35,28 @@ public class NamesShuffler {
         this.howManyTeams = howManyTeams;
         teams = new ArrayList<>();
         howManyMissingNames = 0;
+        generateTeams();
     }
 
-    public void generateTeams(boolean forceEvenWithMissingNames) {
+    private void generateTeams() {
         Collections.shuffle(names);
         if(names.size() > howManyTeams) {
-            if (names.size() % howManyTeams == 0 || forceEvenWithMissingNames) {
-                // teams that needs to be created
-                int namesPerTeam = names.size() % howManyTeams;
-                Random random = new Random();
 
-                for(int i=0; i<howManyTeams; i++) {
-                    List<Person> tempNameList = new ArrayList<>();
-
-                    for(int j=0; j<namesPerTeam; j++) {
-                        if (CollectionUtils.isNotEmpty(names)) {
-                            int randomNameIndex = random.nextInt(names.size());
-                            tempNameList.add(names.remove(randomNameIndex));
-                        }
-                    }
-                    teams.add(tempNameList);
-                }
-            } else {
-                howManyMissingNames = names.size() % howManyTeams;
+            // creating n new empty teams
+            for(int i=0; i<howManyTeams; i++) {
+                teams.add(new ArrayList<>());
             }
+
+            int i=0;
+            while(ObjectUtils.isNotEmpty(names)) {
+                int teamIndex = i%howManyTeams;
+                if(names.size() > 1) {
+                    Collections.shuffle(names);
+                }
+                teams.get(teamIndex).add(names.remove(0));
+                i++;
+            }
+
         }
     }
 

@@ -19,40 +19,20 @@
             android:background="#f5f5f5">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/teamNumberTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                app:autoSizeMaxTextSize="18sp"
-                app:autoSizeMinTextSize="14sp"
-                app:autoSizeStepGranularity="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/linearLayout"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.511"
-                tools:text="Marco Rossi" />
-
-            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/teamNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="68dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
                 app:autoSizeMaxTextSize="18sp"
                 app:autoSizeMinTextSize="14sp"
                 app:autoSizeStepGranularity="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.063"
+                app:layout_constraintHorizontal_bias="0.289"
                 app:layout_constraintStart_toEndOf="@+id/linearLayout"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.139"
-                tools:text="Marco Rossi" />
+                app:layout_constraintVertical_bias="0.088"
+                tools:text="@string/first_default_team_name" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -92,6 +72,35 @@
                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/memeberNamesTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/first_default_team_member_name"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.276"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/teamNameTextView"
+                app:layout_constraintVertical_bias="0.863" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/teamNumberTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                app:autoSizeMaxTextSize="18sp"
+                app:autoSizeMinTextSize="14sp"
+                app:autoSizeStepGranularity="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/linearLayout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.511"
+                tools:text="@string/first_default_number" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

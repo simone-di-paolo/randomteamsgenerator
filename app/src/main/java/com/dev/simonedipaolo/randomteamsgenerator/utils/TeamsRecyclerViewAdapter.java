@@ -1,18 +1,14 @@
 package com.dev.simonedipaolo.randomteamsgenerator.utils;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -20,11 +16,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
-import com.dev.simonedipaolo.randomteamsgenerator.fragments.MainFragment;
+import com.dev.simonedipaolo.randomteamsgenerator.core.Flag;
+import com.dev.simonedipaolo.randomteamsgenerator.core.RandomFlagGenerator;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -34,11 +31,15 @@ import java.util.List;
 public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecyclerViewAdapter.ViewHolder> {
 
     private Context context;
-    private List<Person> teams;
+    private List<List<Person>> teams;
 
-    public TeamsRecyclerViewAdapter(Context context, List<Person> teams) {
+    private RandomFlagGenerator randomFlagGenerator;
+    List<Flag> flags;
+
+    public TeamsRecyclerViewAdapter(Context context, List<List<Person>> teams, boolean makeCenterColorWhite) {
         this.context = context;
         this.teams = teams;
+        this.randomFlagGenerator = new RandomFlagGenerator(teams.size(), makeCenterColorWhite);
     }
 
     @NonNull
@@ -50,15 +51,25 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
                 false
         );
 
+        flags = randomFlagGenerator.getFlags();
+
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
+        Flag iFlag = flags.get(position);
         // creating the flag
-        holder.flagFirstButton.setBackgroundColor(1);
-        holder.flagFirstButton.setBackgroundColor(1);
-        holder.flagFirstButton.setBackgroundColor(1);
+        holder.flagFirstButton.setBackgroundColor(Color.parseColor(iFlag.getFirstColor()));
+        holder.flagSecondButton.setBackgroundColor(Color.parseColor(iFlag.getSecondColor()));
+        holder.flagThirdButton.setBackgroundColor(Color.parseColor(iFlag.getThirdColor()));
+
+        // create the team
+        String teamNames = createStringWithNames(position);
+        holder.membersNameTextView.setText(teamNames);
+
+        holder.teamNumber.setText(String.valueOf(position+1));
     }
 
     @Override
@@ -72,11 +83,22 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
         private Button flagSecondButton;
         private Button flagThirdButton;
 
+        private AppCompatTextView membersNameTextView;
+        private AppCompatTextView teamNumber;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             flagFirstButton = itemView.findViewById(R.id.flagFirstButton);
+            flagFirstButton.setClickable(false);
+
             flagSecondButton = itemView.findViewById(R.id.flagSecondButton);
+            flagSecondButton.setClickable(false);
+
             flagThirdButton = itemView.findViewById(R.id.flagThirdButton);
+            flagThirdButton.setClickable(false);
+
+            membersNameTextView = itemView.findViewById(R.id.memeberNamesTextView);
+            teamNumber = itemView.findViewById(R.id.teamNumberTextView);
         }
 
     }
@@ -96,6 +118,15 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
         } else {
             Log.e("activity it's null", "MainFragment");
         }
+    }
+
+    private String createStringWithNames(int index) {
+        String teamNames = StringUtils.EMPTY;
+        List<Person> tempSingleTeam = teams.get(index);
+        for (int i=0; i<tempSingleTeam.size(); i++) {
+            teamNames += (i+1) + " - " + tempSingleTeam.get(i).getName() + "\n";
+        }
+        return teamNames;
     }
 
 }

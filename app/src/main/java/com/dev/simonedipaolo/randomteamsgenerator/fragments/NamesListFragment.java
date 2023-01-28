@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -58,10 +59,10 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
         View v = inflater.inflate(R.layout.fragment_names_list, container, false);
         context = getContext();
 
-        Activity activity = getActivity();
+        FragmentActivity activity = getActivity();
 
         if(ObjectUtils.isNotEmpty(activity)) {
-            NavHostFragment navHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager()
+            NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager()
                     .findFragmentById(R.id.nav_host_fragment);
             if (ObjectUtils.isNotEmpty(navHostFragment)) {
                 navController = navHostFragment.getNavController();

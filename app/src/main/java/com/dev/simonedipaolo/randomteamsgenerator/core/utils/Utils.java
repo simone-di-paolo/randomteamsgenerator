@@ -19,6 +19,7 @@ import org.apache.commons.lang3.ObjectUtils;
  */
 public class Utils {
 
+
     public static void replaceFragment(FragmentActivity activity, Fragment fragment, boolean addToBackstack) {
         if(ObjectUtils.isNotEmpty(activity)) {
             FragmentManager supportFragmentManager = activity.getSupportFragmentManager();

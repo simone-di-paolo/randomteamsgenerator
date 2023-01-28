@@ -25,6 +25,9 @@
         <argument
             android:name="first_person"
             app:argType="string" />
+        <action
+            android:id="@+id/action_namesListFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/generatedTeamsFragment"

@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,8 @@ import android.widget.LinearLayout;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 public class MainFragment extends Fragment {
 
@@ -39,10 +44,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-        NavHostFragment navHostFragment = (NavHostFragment) getActivity().getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment);
-        navController = navHostFragment.getNavController();
-        //navController = Navigation.findNavController(v);
+
         Button addNameButton = v.findViewById(R.id.addNameButton);
         addNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,8 +54,26 @@ public class MainFragment extends Fragment {
             }
         });
 
-
         return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        FragmentActivity activity = getActivity();
+        if(ObjectUtils.isNotEmpty(activity)) {
+            NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager()
+                    .findFragmentById(R.id.nav_host_fragment);
+            if (ObjectUtils.isNotEmpty(navHostFragment)) {
+                navController = navHostFragment.getNavController();
+            }  else {
+                Log.d("NamesListFragment", "navHostFragment it's empty");
+            }
+        } else {
+            Log.d("NamesListFragment", "activity it's empty");
+        }
+
     }
 
     // alert dialog

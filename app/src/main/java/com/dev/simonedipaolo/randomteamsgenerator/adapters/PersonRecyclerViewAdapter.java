@@ -16,11 +16,14 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.core.utils.Utils;
 import com.dev.simonedipaolo.randomteamsgenerator.fragments.MainFragment;
+import com.dev.simonedipaolo.randomteamsgenerator.fragments.NamesListFragmentDirections;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -36,6 +39,8 @@ public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecycl
     private List<Person> personList;
     private Context context;
     private PersonEventListener listener;
+
+    private NavController navController;
 
     public PersonRecyclerViewAdapter(Context context, List<Person> personList, PersonEventListener listener) {
         this.personList = personList;
@@ -75,8 +80,20 @@ public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecycl
                 notifyItemRemoved(holder.getLayoutPosition());
 
                 if(CollectionUtils.isEmpty(personList)) {
-                    Utils.replaceFragment((FragmentActivity) context, new MainFragment(), false);
-                    //changeFragment(new MainFragment());
+
+                    FragmentActivity activity = (FragmentActivity) context;
+                    if(ObjectUtils.isNotEmpty(activity)) {
+                        NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager()
+                                .findFragmentById(R.id.nav_host_fragment);
+                        if (ObjectUtils.isNotEmpty(navHostFragment)) {
+                            navController = navHostFragment.getNavController();
+                        }  else {
+                            Log.d("NamesListFragment", "navHostFragment it's empty");
+                        }
+                    } else {
+                        Log.d("NamesListFragment", "activity it's empty");
+                    }
+                    navController.navigate(NamesListFragmentDirections.actionNamesListFragmentToMainFragment());
                 } else {
                     if(personList.size() < 3) {
                         listener.disableGenerateTeams();

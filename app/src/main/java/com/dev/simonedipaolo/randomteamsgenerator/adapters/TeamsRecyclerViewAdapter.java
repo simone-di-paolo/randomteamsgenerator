@@ -35,15 +35,14 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
     private Context context;
     private List<List<Person>> teams;
 
-    private RandomFlagGenerator randomFlagGenerator;
     private List<Flag> flags;
-    private TeamNameGenerator teamNameGenerator;
     private List<TeamName> teamNameList;
 
-    public TeamsRecyclerViewAdapter(Context context, List<List<Person>> teams, boolean makeCenterColorWhite) {
+    public TeamsRecyclerViewAdapter(Context context, List<List<Person>> teams, List<TeamName> teamNameList, List<Flag> flags) {
         this.context = context;
         this.teams = teams;
-        this.randomFlagGenerator = new RandomFlagGenerator(teams.size(), makeCenterColorWhite);
+        this.teamNameList = teamNameList;
+        this.flags = flags;
     }
 
     @NonNull
@@ -55,9 +54,6 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
                 false
         );
 
-        flags = randomFlagGenerator.getFlags();
-        teamNameGenerator = new TeamNameGenerator(context);
-        teamNameList = teamNameGenerator.getTeamFullNames();
         return new ViewHolder(v);
     }
 

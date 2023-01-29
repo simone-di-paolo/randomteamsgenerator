@@ -68,7 +68,7 @@ public class TeamNameGenerator {
         Collections.shuffle(firstNamesFromJson);
         Collections.shuffle(secondNamesFromJson);
         for(int i=0; i<firstNamesFromJson.size(); i++) {
-            teamFullNames.add(new TeamName(firstNamesFromJson.get(0), secondNamesFromJson.get(0)));
+            teamFullNames.add(new TeamName(firstNamesFromJson.remove(0), secondNamesFromJson.remove(0)));
         }
     }
 

@@ -11,7 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
+import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Flag;
+import com.dev.simonedipaolo.randomteamsgenerator.core.bean.TeamName;
 import com.dev.simonedipaolo.randomteamsgenerator.core.utils.NamesShuffler;
+import com.dev.simonedipaolo.randomteamsgenerator.core.utils.RandomFlagGenerator;
+import com.dev.simonedipaolo.randomteamsgenerator.core.utils.TeamNameGenerator;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 import com.dev.simonedipaolo.randomteamsgenerator.adapters.TeamsRecyclerViewAdapter;
 
@@ -50,12 +54,9 @@ public class GeneratedTeamsFragment extends Fragment {
             personList = new LinkedList<>(Arrays.asList(personArray));
             namesShuffler = new NamesShuffler(personList, howManyTeams);
             teams = namesShuffler.getTeams();
-
-            // TODO get teams
         }
 
         recyclerViewInit(view);
-
 
         return view;
     }
@@ -69,7 +70,15 @@ public class GeneratedTeamsFragment extends Fragment {
         linearLayout.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayout);
 
-        adapter = new TeamsRecyclerViewAdapter(getActivity(), teams, true);
+        // generate flags
+        RandomFlagGenerator randomFlagGenerator = new RandomFlagGenerator(teams.size(), true);
+        List<Flag> flags = randomFlagGenerator.getFlags();
+
+        // generate teams
+        TeamNameGenerator teamNameGenerator = new TeamNameGenerator(getActivity());
+        List<TeamName> teamNameList = teamNameGenerator.getTeamFullNames();
+
+        adapter = new TeamsRecyclerViewAdapter(getActivity(), teams,  teamNameList, flags);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
     }

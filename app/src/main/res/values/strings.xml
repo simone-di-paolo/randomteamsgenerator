@@ -11,7 +11,9 @@
     <string name="edit_button">Edit</string>
 
     <!-- FRAGMENT NAMES LIST -->
-    <string name="generate_teams">GENERATE TEAMS</string>
+    <string name="generate_teams">GENERATE</string>
+    <string name="teams_text_view">Teams</string>
+    <string name="info_text_view">Click on names to edit. Feel free to add or cancel as many you want.</string>
 
     <!-- FRAGMENT TEAMS LIST -->
     <string name="clear_button_text">CLEAR</string>

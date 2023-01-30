@@ -8,16 +8,20 @@ import android.widget.FrameLayout;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.fragments.MainFragment;
+import com.google.android.material.appbar.MaterialToolbar;
 
 public class MainActivity extends AppCompatActivity {
+
+    private MaterialToolbar materialToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.nav_host_fragment, new MainFragment());
-        fragmentTransaction.commit();*/
+        materialToolbar = findViewById(R.id.materialToolbar);
+        setSupportActionBar(materialToolbar);
+
     }
+
 }

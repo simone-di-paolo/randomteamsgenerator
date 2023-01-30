@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Random Team Generator</string>
 
+    <!-- ACTIVITY STRINGS -->
+    <string name="main_activity_app_title">Random Teams Generator</string>
+
     <!-- MAIN FRAGMENT STRINGS -->
     <string name="add_name">Click the button to add a name</string>
     <string name="add_button">ADD</string>
@@ -12,7 +15,7 @@
 
     <!-- FRAGMENT NAMES LIST -->
     <string name="generate_teams">GENERATE</string>
-    <string name="teams_text_view">Teams</string>
+    <string name="add_names_floating_button_description">Add name</string>
     <string name="info_text_view">Click on names to edit. Feel free to add or cancel as many you want.</string>
 
     <!-- FRAGMENT TEAMS LIST -->
@@ -24,5 +27,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- Toolbar strings -->
+    <string name="names_title">Names</string>
+    <string name="teams_title">Teams</string>
 
 </resources>

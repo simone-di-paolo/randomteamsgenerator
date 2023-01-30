@@ -24,8 +24,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
             android:padding="8dp"
             app:autoSizeMaxTextSize="18sp"
             app:autoSizeMinTextSize="14sp"

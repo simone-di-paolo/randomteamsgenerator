@@ -1,5 +1,6 @@
 package com.dev.simonedipaolo.randomteamsgenerator.fragments;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
@@ -24,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 import com.dev.simonedipaolo.randomteamsgenerator.adapters.PersonRecyclerViewAdapter;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -43,7 +47,7 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
 
     private PersonRecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
-    private Button addButton;
+    private FloatingActionButton addFAB;
     private Button generateTeamsButton;
 
     private NavController navController;
@@ -62,6 +66,17 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
         FragmentActivity activity = getActivity();
 
         if(ObjectUtils.isNotEmpty(activity)) {
+
+            // setup go back button in top bar
+            MaterialToolbar materialToolbar = activity.findViewById(R.id.materialToolbar);
+            if(ObjectUtils.isNotEmpty(materialToolbar)) {
+                AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+                if(ObjectUtils.isNotEmpty(appCompatActivity)) {
+                    materialToolbar.setNavigationIcon(R.drawable.ic_back_24dp);
+                    materialToolbar.setTitle(R.string.names_title);
+                }
+            }
+
             NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager()
                     .findFragmentById(R.id.nav_host_fragment);
             if (ObjectUtils.isNotEmpty(navHostFragment)) {
@@ -81,8 +96,8 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
             personList.add(firstPerson);
         }
 
-        addButton = v.findViewById(R.id.addOtherNamesButton);
-        addButton.setOnClickListener(new View.OnClickListener() {
+        addFAB = v.findViewById(R.id.addFloatingActionButton);
+        addFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog dialog = createAddNameAlertDialog(getActivity()).create();

@@ -17,6 +17,7 @@ import java.util.Random;
  */
 public class NamesShuffler {
 
+    private List<Person> unmodifiebleNamesList;
     private List<Person> names;
     private int howManyTeams;
 
@@ -24,14 +25,16 @@ public class NamesShuffler {
     private int howManyMissingNames;
 
     public NamesShuffler() {
-        names = new ArrayList<>();
+        unmodifiebleNamesList = new ArrayList<>();
         teams = new ArrayList<>();
         howManyTeams = 2;
         howManyMissingNames = 0;
     }
 
-    public NamesShuffler(List<Person> names, int howManyTeams) {
-        this.names = names;
+    public NamesShuffler(List<Person> unmodifiebleNamesList, int howManyTeams) {
+        this.unmodifiebleNamesList = unmodifiebleNamesList;
+        names = new ArrayList<>();
+        names.addAll(unmodifiebleNamesList);
         this.howManyTeams = howManyTeams;
         teams = new ArrayList<>();
         howManyMissingNames = 0;

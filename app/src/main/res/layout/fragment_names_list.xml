@@ -51,68 +51,30 @@
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:background="@color/md_theme_light_tertiaryContainer"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:context=".fragments.NamesListFragment">
-
-        <Button
-            android:id="@+id/generateTeamsButton"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="24dp"
-            android:text="@string/generate_teams"
-            android:textColor="@color/md_theme_light_onTertiary"
-            android:textSize="15sp"
-            app:backgroundTint="@color/md_theme_light_tertiary"
-            app:elevation="2dp"
-            app:icon="@drawable/ic_check_24dp"
-            app:iconTint="@color/md_theme_light_onTertiary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addFloatingActionButton"
-        android:contentDescription="@string/add_names_floating_button_description"
+    <Button
+        android:id="@+id/generateTeamsButton"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="24dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_add_white_24dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/generate_teams"
+        android:textColor="@color/md_theme_light_onPrimary"
+        android:textSize="15sp"
+        android:backgroundTint="@color/md_theme_light_primary"
+        app:elevation="2dp"
+        app:icon="@drawable/ic_check_24dp"
+        app:iconTint="@color/md_theme_light_onPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.90999997"
-        app:tint="@color/md_theme_light_onPrimary"
-        app:backgroundTint="@color/md_theme_light_primary"/>
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

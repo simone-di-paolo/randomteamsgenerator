@@ -17,6 +17,8 @@
     <string name="generate_teams">GENERATE</string>
     <string name="add_names_floating_button_description">Add name</string>
     <string name="info_text_view">Click on names to edit. Feel free to add or cancel as many you want.</string>
+    <string name="help_text">\u2022 The generate button will be available once you have added at least three names. \n\n\u2022 After clicked on the generate button, you need to choose how many teams you want to create. \n\n\u2022 If you delete all names you will me prompted to the start page.</string>
+
 
     <!-- FRAGMENT TEAMS LIST -->
     <string name="clear_button_text">CLEAR</string>
@@ -25,12 +27,18 @@
     <string name="first_default_number">1</string>
     <string name="first_default_team_member_name">1 - Mario Rossi</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
     <!-- Toolbar strings -->
     <string name="names_title">Names</string>
     <string name="teams_title">Teams</string>
+
+    <!-- Toolbar Icons -->
+    <string name="toolbar_info_title">Info</string>
+    <string name="toolbar_info_description">Info</string>
+
+    <!-- Utils string -->
+    <string name="continue_string">Continue</string>
+
 
 </resources>

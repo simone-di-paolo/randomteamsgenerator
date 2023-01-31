@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:tooltipText="test"
-        android:title="TODO" />
+        android:id="@+id/info"
+        android:icon="@drawable/ic_help_24dp"
+        android:title="@string/toolbar_info_title"
+        android:contentDescription="@string/toolbar_info_description"
+        app:showAsAction="ifRoom" />
 
 </menu>

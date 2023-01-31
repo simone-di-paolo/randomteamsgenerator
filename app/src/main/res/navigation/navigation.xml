@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_namesListFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <argument
+            android:name="personList"
+            app:argType="com.dev.simonedipaolo.randomteamsgenerator.models.Person[]" />
     </fragment>
     <fragment
         android:id="@+id/generatedTeamsFragment"
@@ -39,5 +42,8 @@
         <argument
             android:name="how_many_teams"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_generatedTeamsFragment_to_namesListFragment"
+            app:destination="@id/namesListFragment" />
     </fragment>
 </navigation>

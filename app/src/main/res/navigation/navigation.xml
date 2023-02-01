@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_mainFragment_to_namesListFragment"
-            app:destination="@id/namesListFragment" />
+            app:destination="@id/namesListFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left" />
     </fragment>
     <fragment
         android:id="@+id/namesListFragment"
@@ -21,13 +23,17 @@
         tools:layout="@layout/fragment_generated_teams" >
         <action
             android:id="@+id/action_namesListFragment_to_generatedTeamsFragment"
-            app:destination="@id/generatedTeamsFragment" />
+            app:destination="@id/generatedTeamsFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left" />
         <argument
             android:name="first_person"
             app:argType="string" />
         <action
             android:id="@+id/action_namesListFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right" />
         <argument
             android:name="personList"
             app:argType="com.dev.simonedipaolo.randomteamsgenerator.models.Person[]" />
@@ -44,6 +50,8 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_generatedTeamsFragment_to_namesListFragment"
-            app:destination="@id/namesListFragment" />
+            app:destination="@id/namesListFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right" />
     </fragment>
 </navigation>

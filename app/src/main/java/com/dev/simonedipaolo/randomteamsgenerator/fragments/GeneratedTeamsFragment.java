@@ -1,31 +1,41 @@
 package com.dev.simonedipaolo.randomteamsgenerator.fragments;
 
-import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Lifecycle;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.dev.simonedipaolo.randomteamsgenerator.R;
+import com.dev.simonedipaolo.randomteamsgenerator.adapters.TeamsRecyclerViewAdapter;
 import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Flag;
+import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Row;
 import com.dev.simonedipaolo.randomteamsgenerator.core.bean.TeamName;
 import com.dev.simonedipaolo.randomteamsgenerator.core.utils.NamesShuffler;
 import com.dev.simonedipaolo.randomteamsgenerator.core.utils.RandomFlagGenerator;
+import com.dev.simonedipaolo.randomteamsgenerator.core.utils.RowGenerator;
 import com.dev.simonedipaolo.randomteamsgenerator.core.utils.TeamNameGenerator;
-import com.dev.simonedipaolo.randomteamsgenerator.fragments.GeneratedTeamsFragmentDirections;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
-import com.dev.simonedipaolo.randomteamsgenerator.adapters.TeamsRecyclerViewAdapter;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -39,14 +49,21 @@ public class GeneratedTeamsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private TeamsRecyclerViewAdapter adapter;
+    private Person[] personArray;
     private List<Person> personList;
     private List<List<Person>> teams;
+    private List<Flag> flags;
+    private List<Row> rows;
+    private List<TeamName> teamNameList;
+    private int howManyTeams;
     private NamesShuffler namesShuffler;
 
     // navigation
     private NavController navController;
+    private MaterialToolbar materialToolbar;
 
     private FragmentActivity activity;
+    private FloatingActionButton addFAB;
 
     public GeneratedTeamsFragment() {
         // Required empty public constructor
@@ -61,20 +78,16 @@ public class GeneratedTeamsFragment extends Fragment {
 
         activity = getActivity();
 
-        // TODO remove the + (add) button
-
         if (ObjectUtils.isNotEmpty(activity)) {
             // initializing personList and recycler view
             Bundle bundle = getArguments();
             if(ObjectUtils.isNotEmpty(bundle)) {
-                Person[] personArray = GeneratedTeamsFragmentArgs.fromBundle(getArguments()).getPersonList();
-                int howManyTeams = GeneratedTeamsFragmentArgs.fromBundle(getArguments()).getHowManyTeams();
+                personArray = GeneratedTeamsFragmentArgs.fromBundle(getArguments()).getPersonList();
+                howManyTeams = GeneratedTeamsFragmentArgs.fromBundle(getArguments()).getHowManyTeams();
 
                 // LinkedList will be used because Arrays.asList will resturn an unmodificable wrapper of list
                 personList = new LinkedList<>(Arrays.asList(personArray));
-                namesShuffler = new NamesShuffler(personList, howManyTeams);
-                teams = namesShuffler.getTeams();
-
+                generateFlagsAndTeams();
             }
 
             recyclerViewInit(view);
@@ -82,7 +95,17 @@ public class GeneratedTeamsFragment extends Fragment {
             // ======== TOOL BAR ========
 
             //
+            addMenuProvider(activity);
             initializeToolbar(activity);
+
+            // intro anim
+            Animation animation = AnimationUtils.loadAnimation(activity, R.anim.from_right);
+            animation.setFillAfter(true);
+            animation.setStartOffset(25);
+            materialToolbar.clearAnimation();
+            materialToolbar.startAnimation(animation);
+
+            initializeFAB(activity);
 
             // ======== NAV CONTROLLER ========
             NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager()
@@ -112,15 +135,7 @@ public class GeneratedTeamsFragment extends Fragment {
             linearLayout.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(linearLayout);
 
-            // generate flags
-            RandomFlagGenerator randomFlagGenerator = new RandomFlagGenerator(teams.size(), true);
-            List<Flag> flags = randomFlagGenerator.getFlags();
-
-            // generate teams
-            TeamNameGenerator teamNameGenerator = new TeamNameGenerator(activity);
-            List<TeamName> teamNameList = teamNameGenerator.getTeamFullNames();
-
-            adapter = new TeamsRecyclerViewAdapter(activity, teams, teamNameList, flags);
+            adapter = new TeamsRecyclerViewAdapter(activity, teams, teamNameList, flags, rows);
             recyclerView.setAdapter(adapter);
             recyclerView.setHasFixedSize(true);
         } else {
@@ -133,7 +148,7 @@ public class GeneratedTeamsFragment extends Fragment {
      * @param activity
      */
     private void initializeToolbar(FragmentActivity activity) {
-        MaterialToolbar materialToolbar = activity.findViewById(R.id.materialToolbar);
+        materialToolbar = activity.findViewById(R.id.materialToolbar);
         if(ObjectUtils.isNotEmpty(materialToolbar)) {
             AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
             if(ObjectUtils.isNotEmpty(appCompatActivity)) {
@@ -150,14 +165,85 @@ public class GeneratedTeamsFragment extends Fragment {
                         GeneratedTeamsFragmentDirections.ActionGeneratedTeamsFragmentToNamesListFragment action
                                 = GeneratedTeamsFragmentDirections.actionGeneratedTeamsFragmentToNamesListFragment(StringUtils.EMPTY, personArray);
                         navController.navigate(action);
+
+
+                        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.to_right);
+                        animation.setFillAfter(true);
+                        animation.setStartOffset(25);
+                        materialToolbar.clearAnimation();
+                        materialToolbar.startAnimation(animation);
                     }
                 });
 
-                materialToolbar.setTitle(R.string.names_title);
+                materialToolbar.setTitle(R.string.teams_title);
                 materialToolbar.setVisibility(View.VISIBLE);
                 materialToolbar.showOverflowMenu();
             }
         }
+    }
+
+    /**
+     * This method will just initializeFAB (hiding)
+     * @param activity
+     */
+    private void initializeFAB(FragmentActivity activity) {
+        addFAB = activity.findViewById(R.id.addBottomBarFloatingActionButton);
+        addFAB.setClickable(false);
+        addFAB.setVisibility(View.GONE);
+    }
+
+    private void addMenuProvider(FragmentActivity activity) {
+        requireActivity().addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.generated_teams_menu, menu);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                int resId = menuItem.getItemId();
+                if(resId == R.id.update) {
+                    new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogInfo_App)
+                            .setIcon(R.drawable.ic_info_24dp)
+                            .setMessage(R.string.alert_update_text)
+                            .setPositiveButton(getResources().getString(R.string.confirm_string), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    generateFlagsAndTeams();
+                                    adapter = new TeamsRecyclerViewAdapter(activity, teams, teamNameList, flags, rows);
+                                    recyclerView.setAdapter(adapter);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            })
+                            .setNegativeButton(getResources().getString(R.string.cancel_string), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // nothing
+                                }
+                            })
+                            .show();
+                    return true;
+                }
+                return false;
+            }
+        }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+    }
+
+    private void generateFlagsAndTeams() {
+        // generate new team member names
+        namesShuffler = new NamesShuffler(personList, howManyTeams);
+        teams = namesShuffler.getTeams();
+
+        // generate flags
+        RandomFlagGenerator randomFlagGenerator = new RandomFlagGenerator(teams.size(), true);
+        flags = randomFlagGenerator.getFlags();
+
+        RowGenerator rowGenerator = new RowGenerator(activity, teams.size());
+        rows = rowGenerator.getRows();
+
+        // generate teams
+        TeamNameGenerator teamNameGenerator = new TeamNameGenerator(activity);
+        teamNameList = teamNameGenerator.getTeamFullNames();
     }
 
 }

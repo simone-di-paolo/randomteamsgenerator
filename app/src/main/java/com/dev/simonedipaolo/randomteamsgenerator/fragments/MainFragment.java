@@ -1,6 +1,7 @@
 package com.dev.simonedipaolo.randomteamsgenerator.fragments;
 
-import android.app.AlertDialog;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -24,6 +27,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +38,9 @@ public class MainFragment extends Fragment {
 
     private NavController navController;
     private CoordinatorLayout coordinatorLayout;
+    private MaterialToolbar materialToolbar;
+    private FragmentActivity fragmentActivity;
+    private ObjectAnimator scaleDown;
 
     public MainFragment() {
         // Required empty public constructor
@@ -48,18 +55,31 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-
-        bottomBarInitializer();
+        fragmentActivity = getActivity();
+        bottomAndTopBarInitializer();
         //setToolbarMenu();
 
         Button addNameButton = v.findViewById(R.id.addNameButton);
         addNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog dialog = createAddNameAlertDialog(getActivity()).create();
+                MaterialAlertDialogBuilder dialog = createAddNameAlertDialog(getActivity());
                 dialog.show();
+                scaleDown.pause();
             }
         });
+
+        // add button animation
+        scaleDown = ObjectAnimator.ofPropertyValuesHolder(
+                addNameButton,
+                PropertyValuesHolder.ofFloat("scaleX", 1.2f),
+                PropertyValuesHolder.ofFloat("scaleY", 1.2f));
+        scaleDown.setDuration(500);
+
+        scaleDown.setRepeatCount(ObjectAnimator.INFINITE);
+        scaleDown.setRepeatMode(ObjectAnimator.REVERSE);
+
+        scaleDown.start();
 
         return v;
     }
@@ -84,8 +104,8 @@ public class MainFragment extends Fragment {
     }
 
     // alert dialog
-    private AlertDialog.Builder createAddNameAlertDialog(Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+    private MaterialAlertDialogBuilder createAddNameAlertDialog(Context context) {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
         builder.setMessage("Type a name:");
 
         final EditText input = new EditText(context);
@@ -93,23 +113,34 @@ public class MainFragment extends Fragment {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT
         );
+        input.setContentDescription(getResources().getString(R.string.name_string));
         input.setLayoutParams(lp);
         builder.setView(input);
 
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String personName = input.getText().toString();
-                Person tempPerson = new Person(personName);
+                if(StringUtils.isNotBlank(personName)) {
+                    Person tempPerson = new Person(personName);
+                    Person[] emptyList = new Person[0];
+                    MainFragmentDirections.ActionMainFragmentToNamesListFragment action =
+                            MainFragmentDirections.actionMainFragmentToNamesListFragment(tempPerson.getName(), emptyList);
+                    navController.navigate(action);
 
-                Person[] emptyList = new Person[0];
-                MainFragmentDirections.ActionMainFragmentToNamesListFragment action =
-                        MainFragmentDirections.actionMainFragmentToNamesListFragment(tempPerson.getName(), emptyList);
-                navController.navigate(action);
+                    materialToolbar.clearAnimation();
+                    Animation animation = AnimationUtils.loadAnimation(fragmentActivity, R.anim.to_left);
+                    animation.setFillAfter(true);
+                    materialToolbar.startAnimation(animation);
+                    materialToolbar.setClickable(false);
+                } else {
+
+                }
             }
         });
 
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                scaleDown.resume();
                 dialog.cancel();
             }
         });
@@ -117,23 +148,34 @@ public class MainFragment extends Fragment {
         return builder;
     }
 
-    private void bottomBarInitializer() {
-        FragmentActivity fragmentActivity = getActivity();
+    private void bottomAndTopBarInitializer() {
         if(ObjectUtils.isNotEmpty(fragmentActivity)) {
 
             // setup go back button in top bar
-            MaterialToolbar materialToolbar = fragmentActivity.findViewById(R.id.materialToolbar);
+            materialToolbar = fragmentActivity.findViewById(R.id.materialToolbar);
             if (ObjectUtils.isNotEmpty(materialToolbar)) {
                 AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
                 if (ObjectUtils.isNotEmpty(appCompatActivity)) {
                     // toolbar
-                    materialToolbar.setNavigationIcon(null);
-                    materialToolbar.setClickable(false);
-                    materialToolbar.setTitle(StringUtils.EMPTY);
-                    materialToolbar.setVisibility(View.GONE);
+                    //materialToolbar.setNavigationIcon(null);
+                    //materialToolbar.setClickable(false);
+                    //materialToolbar.setTitle(StringUtils.EMPTY);
+                    //materialToolbar.setVisibility(View.GONE);
 
-                    // name title in toolbar
-                    //materialToolbar.setTitle(R.string.main_activity_app_title);
+                    materialToolbar.clearAnimation();
+                    Animation animation = AnimationUtils.loadAnimation(fragmentActivity, R.anim.to_right);
+                    animation.setFillAfter(true);
+                    materialToolbar.startAnimation(animation);
+                    materialToolbar.setClickable(false);
+
+                    // hide icons after animation started
+                    materialToolbar.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            materialToolbar.setNavigationIcon(null);
+                        }
+                    }, 500);
+
                 }
             }
 
@@ -144,29 +186,5 @@ public class MainFragment extends Fragment {
 
         }
     }
-
-
-/*
-    private void setToolbarMenu() {
-        requireActivity().addMenuProvider(new MenuProvider() {
-            @Override
-            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menuInflater.inflate(R.menu.top_app_bar, menu);
-            }
-
-            @Override
-            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-                int itemId = menuItem.getItemId();
-
-                if(itemId == R.id.info) {
-                    Toast.makeText(getActivity(), "Info", Toast.LENGTH_LONG)
-                            .show();
-                }
-
-                return false;
-            }
-        }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
-    }
-*/
 
 }

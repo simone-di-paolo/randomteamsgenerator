@@ -11,28 +11,34 @@
         android:id="@+id/addNameTextView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/md_theme_light_onPrimary"
         android:gravity="center"
         android:text="@string/add_name"
+        android:textColor="@color/md_theme_light_onPrimaryContainer"
         app:autoSizeMaxTextSize="20sp"
         app:autoSizeMinTextSize="16sp"
         app:autoSizeTextType="uniform"
         app:fontFamily="roboto_thin"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/addNameButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/addNameButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/add_button"
+        style="?attr/materialIconButtonOutlinedStyle"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:contentDescription="@string/add_name"
+        app:icon="@drawable/ic_add_24dp"
+        app:iconGravity="textTop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addNameTextView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

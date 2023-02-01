@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -17,9 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Flag;
+import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Row;
 import com.dev.simonedipaolo.randomteamsgenerator.core.bean.TeamName;
-import com.dev.simonedipaolo.randomteamsgenerator.core.utils.RandomFlagGenerator;
-import com.dev.simonedipaolo.randomteamsgenerator.core.utils.TeamNameGenerator;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -37,12 +37,14 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
 
     private List<Flag> flags;
     private List<TeamName> teamNameList;
+    private List<Row> rows;
 
-    public TeamsRecyclerViewAdapter(Context context, List<List<Person>> teams, List<TeamName> teamNameList, List<Flag> flags) {
+    public TeamsRecyclerViewAdapter(Context context, List<List<Person>> teams, List<TeamName> teamNameList, List<Flag> flags, List<Row> rows) {
         this.context = context;
         this.teams = teams;
         this.teamNameList = teamNameList;
         this.flags = flags;
+        this.rows = rows;
     }
 
     @NonNull
@@ -66,6 +68,9 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
         holder.flagSecondButton.setBackgroundColor(Color.parseColor(iFlag.getSecondColor()));
         holder.flagThirdButton.setBackgroundColor(Color.parseColor(iFlag.getThirdColor()));
 
+        // coloring constraint layout background
+        holder.constraintLayout.setBackgroundColor(Color.parseColor(rows.get(position).getRowColor()));
+
         // create the team
         String teamNames = createStringWithNames(position);
         holder.membersNameTextView.setText(teamNames);
@@ -85,6 +90,7 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
         private Button flagFirstButton;
         private Button flagSecondButton;
         private Button flagThirdButton;
+        private ConstraintLayout constraintLayout;
 
         private AppCompatTextView membersNameTextView;
         private AppCompatTextView teamNumberTextView;
@@ -102,9 +108,12 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
             flagThirdButton = itemView.findViewById(R.id.flagThirdButton);
             flagThirdButton.setClickable(false);
 
+            constraintLayout = itemView.findViewById(R.id.constraintLayoutRow);
+
             membersNameTextView = itemView.findViewById(R.id.memeberNamesTextView);
             teamNumberTextView = itemView.findViewById(R.id.teamNumberTextView);
             teamNameTextView = itemView.findViewById(R.id.teamNameTextView);
+
         }
 
     }

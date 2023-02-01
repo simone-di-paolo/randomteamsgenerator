@@ -26,6 +26,7 @@
     <string name="first_default_team_name">Pinguini Tattici</string>
     <string name="first_default_number">1</string>
     <string name="first_default_team_member_name">1 - Mario Rossi</string>
+    <string name="alert_update_text">You are going to re-generate every teams from zero. \nAre you sure?</string>
 
 
 
@@ -36,9 +37,14 @@
     <!-- Toolbar Icons -->
     <string name="toolbar_info_title">Info</string>
     <string name="toolbar_info_description">Info</string>
+    <string name="toolbar_update_title">Update</string>
+    <string name="toolbar_update_description">Update</string>
 
-    <!-- Utils string -->
+    <!-- Common Labels string -->
     <string name="continue_string">Continue</string>
+    <string name="confirm_string">Confirm</string>
+    <string name="cancel_string">Cancel</string>
+    <string name="name_string">Name</string>
 
 
 </resources>

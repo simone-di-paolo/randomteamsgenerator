@@ -33,7 +33,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.533"
-            tools:text="Marco Rossi" />
+            tools:text="Marco Rossi"
+            android:textColor="@color/md_theme_light_onSecondaryContainer"
+            android:textSize="18sp"/>
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/deleteButton"

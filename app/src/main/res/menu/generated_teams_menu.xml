@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/update"
+        android:icon="@drawable/ic_update_24dp"
+        android:title="@string/toolbar_update_title"
+        android:contentDescription="@string/toolbar_update_description"
+        app:showAsAction="ifRoom" />
+
+</menu>

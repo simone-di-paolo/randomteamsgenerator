@@ -1,11 +1,8 @@
 package com.dev.simonedipaolo.randomteamsgenerator.fragments;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
@@ -34,13 +32,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
-import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 import com.dev.simonedipaolo.randomteamsgenerator.adapters.PersonRecyclerViewAdapter;
+import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -65,6 +62,7 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
     private RecyclerView recyclerView;
     private FloatingActionButton addFAB;
     private Button generateTeamsButton;
+    private MaterialToolbar materialToolbar;
 
     private NavController navController;
     private CoordinatorLayout coordinatorLayout;
@@ -110,19 +108,13 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
 
         personList = new ArrayList<>();
 
-        /*if (getArguments() != null) {
-            String personName = (String) getArguments().get(FIRST_PERSON_KEY);
-            firstPerson = new Person(personName);
-            personList.add(firstPerson);
-        }*/
-
-        getArgumentsFromBundle();
+        getArgumentsFromBundle(activity);
 
         generateTeamsButton = v.findViewById(R.id.generateTeamsButton);
         generateTeamsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog dialog = generateTeamsDialog(getActivity()).create();
+                MaterialAlertDialogBuilder dialog = generateTeamsDialog(getActivity());
                 dialog.show();
             }
         });
@@ -149,8 +141,8 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
 
 
     // alert dialog
-    private AlertDialog.Builder createAddNameAlertDialog(Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+    private MaterialAlertDialogBuilder createAddNameAlertDialog(Context context) {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
         builder.setMessage("Type a name:");
 
         final EditText input = new EditText(context);
@@ -187,8 +179,8 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
     }
 
     // alert dialog
-    private AlertDialog.Builder generateTeamsDialog(Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+    private MaterialAlertDialogBuilder generateTeamsDialog(Context context) {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
         builder.setMessage("Type a name:");
 
         final NumberPicker numberPicker = new NumberPicker(context);
@@ -211,6 +203,13 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
                 NamesListFragmentDirections.ActionNamesListFragmentToGeneratedTeamsFragment action =
                         NamesListFragmentDirections.actionNamesListFragmentToGeneratedTeamsFragment(personArray, numberPicker.getValue());
                 navController.navigate(action);
+
+                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.to_left);
+                animation.setFillAfter(true);
+                animation.setStartOffset(200);
+
+                materialToolbar.clearAnimation();
+                materialToolbar.startAnimation(animation);
             }
         });
 
@@ -244,7 +243,7 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
      * @param activity
      */
     private void initializeToolbar(FragmentActivity activity) {
-        MaterialToolbar materialToolbar = activity.findViewById(R.id.materialToolbar);
+        materialToolbar = activity.findViewById(R.id.materialToolbar);
         if(ObjectUtils.isNotEmpty(materialToolbar)) {
             AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
             if(ObjectUtils.isNotEmpty(appCompatActivity)) {
@@ -253,12 +252,21 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
                 materialToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        Animation animation = AnimationUtils.loadAnimation(appCompatActivity, R.anim.to_right);
+                        animation.setFillAfter(true);
+                        animation.setStartOffset(50);
+                        materialToolbar.clearAnimation();
+                        materialToolbar.startAnimation(animation);
+                        materialToolbar.setClickable(false);
+
                         navController.navigate(NamesListFragmentDirections.actionNamesListFragmentToMainFragment());
+                        // TODO fading animation
                     }
                 });
 
                 materialToolbar.setTitle(R.string.names_title);
                 materialToolbar.setVisibility(View.VISIBLE);
+                //materialToolbar.setClickable(true);
                 materialToolbar.showOverflowMenu();
             }
         }
@@ -268,9 +276,6 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
         requireActivity().addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                for(int i=0; i<menu.size(); i++) {
-                    menu.getItem(i).setCheckable(true);
-                }
                 menuInflater.inflate(R.menu.top_app_bar, menu);
             }
 
@@ -301,16 +306,18 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
      */
     private void initializeFAB(FragmentActivity activity) {
         addFAB = activity.findViewById(R.id.addBottomBarFloatingActionButton);
+        addFAB.setClickable(true);
+        addFAB.setVisibility(View.VISIBLE);
         addFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog dialog = createAddNameAlertDialog(getActivity()).create();
+                MaterialAlertDialogBuilder dialog = createAddNameAlertDialog(getActivity());
                 dialog.show();
             }
         });
     }
 
-    private void getArgumentsFromBundle() {
+    private void getArgumentsFromBundle(FragmentActivity activity) {
         Bundle bundle = getArguments();
         if(ObjectUtils.isNotEmpty(bundle)) {
             // getting array
@@ -318,11 +325,23 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
             if(ArrayUtils.isNotEmpty(personArray)) {
                 // LinkedList will be used because Arrays.asList will resturn an unmodificable wrapper of list
                 personList = new LinkedList<>(Arrays.asList(personArray));
+
+                Animation animation = AnimationUtils.loadAnimation(activity, R.anim.from_left);
+                animation.setFillAfter(true);
+                animation.setStartOffset(30);
+                materialToolbar.clearAnimation();
+                materialToolbar.startAnimation(animation);
             } else {
                 // getting personName because personArray it's empty
                 String personName = (String) getArguments().get(FIRST_PERSON_KEY);
                 firstPerson = new Person(personName);
                 personList.add(firstPerson);
+
+                Animation animation = AnimationUtils.loadAnimation(activity, R.anim.from_right);
+                animation.setFillAfter(true);
+                animation.setStartOffset(30);
+                materialToolbar.clearAnimation();
+                materialToolbar.startAnimation(animation);
             }
         }
     }

@@ -5,10 +5,6 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.io.Serializable;
-
 /**
  * Created by Simone Di Paolo on 14/01/2023.
  */

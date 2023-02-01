@@ -5,6 +5,7 @@
     <item
         android:id="@+id/info"
         android:icon="@drawable/ic_help_24dp"
+        android:iconTint="@color/md_theme_light_onSecondaryContainer"
         android:title="@string/toolbar_info_title"
         android:contentDescription="@string/toolbar_info_description"
         app:showAsAction="ifRoom" />

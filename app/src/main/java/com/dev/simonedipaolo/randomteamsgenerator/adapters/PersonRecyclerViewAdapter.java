@@ -21,8 +21,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
-import com.dev.simonedipaolo.randomteamsgenerator.core.utils.Utils;
-import com.dev.simonedipaolo.randomteamsgenerator.fragments.MainFragment;
 import com.dev.simonedipaolo.randomteamsgenerator.fragments.NamesListFragmentDirections;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 

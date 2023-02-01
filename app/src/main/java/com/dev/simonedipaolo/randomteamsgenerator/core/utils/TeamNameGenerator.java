@@ -2,15 +2,11 @@ package com.dev.simonedipaolo.randomteamsgenerator.core.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.util.JsonReader;
-import android.util.Log;
 
 import com.dev.simonedipaolo.randomteamsgenerator.core.bean.TeamName;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
@@ -34,7 +30,10 @@ public class TeamNameGenerator {
         this.context = context;
         this.teamFullNames = new ArrayList<>();
         try {
-            getGsonfromJson();
+            //getGsonfromJson();
+            firstNamesFromJson = Utils.readListFromJson(context, "firstNames.json");
+            secondNamesFromJson = Utils.readListFromJson(context, "secondNames.json");
+            populateTeamsNamesList();
         } catch (IOException e) {
             e.printStackTrace();
         }

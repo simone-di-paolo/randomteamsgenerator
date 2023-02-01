@@ -1,16 +1,12 @@
 package com.dev.simonedipaolo.randomteamsgenerator.core.utils;
 
-import android.util.Log;
-
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Simone Di Paolo on 11/01/2023.

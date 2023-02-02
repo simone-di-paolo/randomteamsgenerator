@@ -39,30 +39,6 @@ public class TeamNameGenerator {
         }
     }
 
-    private void getGsonfromJson() throws IOException {
-
-        // first file
-        AssetManager assetManager = context.getAssets();
-        InputStream is = assetManager.open("firstNames.json");
-        int size = is.available();
-        byte[] buffer = new byte[size];
-        is.read(buffer);
-        is.close();
-        String jsonString = new String(buffer, "UTF-8");
-        Gson gson = new Gson();
-        firstNamesFromJson = gson.fromJson(jsonString, List.class);
-
-        is = assetManager.open("secondNames.json");
-        size = is.available();
-        buffer = new byte[size];
-        is.read(buffer);
-        is.close();
-        jsonString = new String(buffer, "UTF-8");
-        secondNamesFromJson = gson.fromJson(jsonString, List.class);
-
-        populateTeamsNamesList();
-    }
-
     private void populateTeamsNamesList() {
         Collections.shuffle(firstNamesFromJson);
         Collections.shuffle(secondNamesFromJson);

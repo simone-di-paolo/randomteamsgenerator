@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -28,6 +29,7 @@ import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,6 +43,7 @@ public class MainFragment extends Fragment {
     private MaterialToolbar materialToolbar;
     private FragmentActivity fragmentActivity;
     private ObjectAnimator scaleDown;
+    private ConstraintLayout constraintLayout;
 
     public MainFragment() {
         // Required empty public constructor
@@ -56,6 +59,7 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         fragmentActivity = getActivity();
+        constraintLayout = v.findViewById(R.id.mainFragmentConstraintLayout);
         bottomAndTopBarInitializer();
         //setToolbarMenu();
 
@@ -133,9 +137,18 @@ public class MainFragment extends Fragment {
                     materialToolbar.startAnimation(animation);
                     materialToolbar.setClickable(false);
                 } else {
-
+                    Snackbar.make(constraintLayout, "Please insert a valid name", Snackbar.LENGTH_SHORT)
+                            .setAction("Retry", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    MaterialAlertDialogBuilder dialog = createAddNameAlertDialog(getActivity());
+                                    dialog.show();
+                                }
+                            })
+                            .show();
                 }
             }
+
         });
 
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

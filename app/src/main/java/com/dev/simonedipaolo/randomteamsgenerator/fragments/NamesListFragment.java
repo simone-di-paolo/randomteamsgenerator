@@ -1,6 +1,5 @@
 package com.dev.simonedipaolo.randomteamsgenerator.fragments;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -17,10 +16,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
@@ -37,9 +36,11 @@ import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,12 +62,14 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
     private PersonRecyclerViewAdapter adapter;
     private RecyclerView recyclerView;
     private FloatingActionButton addFAB;
+    private boolean generateButtonAnimationFromBottomAlreadyTriggered;
+    private boolean generateButtonAnimationToBottomAlreadyTriggered;
     private Button generateTeamsButton;
     private MaterialToolbar materialToolbar;
 
     private NavController navController;
     private CoordinatorLayout coordinatorLayout;
-
+    private ConstraintLayout constraintLayout;
     private Context context;
 
     public NamesListFragment() {
@@ -76,9 +79,12 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_names_list, container, false);
+        constraintLayout = v.findViewById(R.id.fragmentNamesConstraintLayout);
         context = getContext();
 
         FragmentActivity activity = getActivity();
+        generateButtonAnimationFromBottomAlreadyTriggered = false;
+        generateButtonAnimationToBottomAlreadyTriggered = false;
 
         if(ObjectUtils.isNotEmpty(activity)) {
 
@@ -108,9 +114,9 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
 
         personList = new ArrayList<>();
 
+        generateTeamsButton = v.findViewById(R.id.generateTeamsButton);
         getArgumentsFromBundle(activity);
 
-        generateTeamsButton = v.findViewById(R.id.generateTeamsButton);
         generateTeamsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,7 +128,15 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
         // disabling until there are at least 3 people
         if(personList.size() < 3) {
             generateTeamsButton.setEnabled(false);
-            generateTeamsButton.setVisibility(View.GONE);
+            //generateTeamsButton.setVisibility(View.GONE);
+
+            if(generateTeamsButton.getVisibility() == View.VISIBLE) {
+                Animation animation = AnimationUtils.loadAnimation(activity, R.anim.to_bottom);
+                animation.setFillAfter(true);
+                generateTeamsButton.clearAnimation();
+                generateTeamsButton.setAnimation(animation);
+                generateTeamsButton.startAnimation(animation);
+            }
         }
 
         // Inflate the layout for this fragment
@@ -156,15 +170,38 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 String personName = input.getText().toString();
-                Person tempPerson = new Person(personName);
 
-                if(personList != null) {
-                    personList.add(tempPerson);
-                    adapter.notifyDataSetChanged();
-                    if (personList.size() >= 3) {
-                        generateTeamsButton.setEnabled(true);
-                        generateTeamsButton.setVisibility(View.VISIBLE);
+                if(StringUtils.isNotBlank(personName)) {
+                    Person tempPerson = new Person(personName);
+
+                    if (personList != null) {
+                        personList.add(tempPerson);
+                        adapter.notifyDataSetChanged();
+                        if (personList.size() >= 3) {
+                            generateTeamsButton.setEnabled(true);
+                            generateTeamsButton.setVisibility(View.VISIBLE);
+
+                            if (!generateButtonAnimationFromBottomAlreadyTriggered) {
+                                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_bottom);
+                                animation.setFillAfter(true);
+                                generateTeamsButton.clearAnimation();
+                                generateTeamsButton.setAnimation(animation);
+                                generateTeamsButton.startAnimation(animation);
+                                generateButtonAnimationFromBottomAlreadyTriggered = true;
+                                generateButtonAnimationToBottomAlreadyTriggered = false;
+                            }
+                        }
                     }
+                } else {
+                    Snackbar.make(constraintLayout, "Please insert a valid name", Snackbar.LENGTH_SHORT)
+                            .setAction("Retry", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    MaterialAlertDialogBuilder dialog = createAddNameAlertDialog(getActivity());
+                                    dialog.show();
+                                }
+                            })
+                            .show();
                 }
             }
         });
@@ -229,7 +266,15 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
     @Override
     public void disableGenerateTeams() {
         generateTeamsButton.setEnabled(false);
-        generateTeamsButton.setVisibility(View.GONE);
+        //generateTeamsButton.setVisibility(View.GONE);
+        if(!generateButtonAnimationToBottomAlreadyTriggered) {
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.to_bottom);
+            animation.setFillAfter(true);
+            generateTeamsButton.setAnimation(animation);
+            generateTeamsButton.startAnimation(animation);
+            generateButtonAnimationFromBottomAlreadyTriggered = false;
+            generateButtonAnimationToBottomAlreadyTriggered = true;
+        }
     }
 
 
@@ -342,8 +387,17 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
                 animation.setStartOffset(30);
                 materialToolbar.clearAnimation();
                 materialToolbar.startAnimation(animation);
+
+                generateTeamsButton.setVisibility(View.GONE);
             }
         }
     }
 
+    public boolean isGenerateButtonAnimationFromBottomAlreadyTriggered() {
+        return generateButtonAnimationFromBottomAlreadyTriggered;
+    }
+
+    public void setGenerateButtonAnimationFromBottomAlreadyTriggered(boolean generateButtonAnimationFromBottomAlreadyTriggered) {
+        this.generateButtonAnimationFromBottomAlreadyTriggered = generateButtonAnimationFromBottomAlreadyTriggered;
+    }
 }

@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
@@ -84,6 +86,21 @@ public class GeneratedTeamsFragment extends Fragment {
             if(ObjectUtils.isNotEmpty(bundle)) {
                 personArray = GeneratedTeamsFragmentArgs.fromBundle(getArguments()).getPersonList();
                 howManyTeams = GeneratedTeamsFragmentArgs.fromBundle(getArguments()).getHowManyTeams();
+
+                // managing go back
+                OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        Person[] personArray = new Person[personList.size()];
+                        for(int i=0; i<personList.size(); i++) {
+                            personArray[i] = personList.get(i);
+                        }
+                        GeneratedTeamsFragmentDirections.ActionGeneratedTeamsFragmentToNamesListFragment action
+                                = GeneratedTeamsFragmentDirections.actionGeneratedTeamsFragmentToNamesListFragment(StringUtils.EMPTY, personArray);
+                        navController.navigate(action);
+                    }
+                };
+                requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
                 // LinkedList will be used because Arrays.asList will resturn an unmodificable wrapper of list
                 personList = new LinkedList<>(Arrays.asList(personArray));

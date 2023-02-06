@@ -32,7 +32,7 @@ public class RowGenerator {
         createRows();
     }
 
-    private void createRows() {
+    private synchronized void createRows() {
         try {
             List<String> colors = Utils.readListFromJson(context, "colors.json");
             Collections.shuffle(colors);

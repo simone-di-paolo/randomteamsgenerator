@@ -21,8 +21,6 @@
 
 
     <!-- FRAGMENT TEAMS LIST -->
-    <string name="clear_button_text">CLEAR</string>
-    <string name="retry_button_text">RE-GENERATE</string>
     <string name="first_default_team_name">Pinguini Tattici</string>
     <string name="first_default_number">1</string>
     <string name="first_default_team_member_name">1 - Mario Rossi</string>
@@ -43,8 +41,15 @@
     <!-- Common Labels string -->
     <string name="continue_string">Continue</string>
     <string name="confirm_string">Confirm</string>
+    <string name="add_lowercase_string">ADD</string>
     <string name="cancel_string">Cancel</string>
     <string name="name_string">Name</string>
+    <string name="type_a_name_string">Type a name:</string>
+    <string name="clear_button_text">CLEAR</string>
+    <string name="retry_string">Retry</string>
+    <string name="please_valid_name_string">Please insert a valid name</string>
+    <string name="generate_button_text">GENERATE</string>
+    <string name="regenerate_button_text">RE-GENERATE</string>
 
 
 </resources>

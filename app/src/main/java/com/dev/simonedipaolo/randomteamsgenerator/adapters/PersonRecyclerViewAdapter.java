@@ -2,7 +2,6 @@ package com.dev.simonedipaolo.randomteamsgenerator.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,9 +33,9 @@ import java.util.List;
  */
 public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecyclerViewAdapter.ViewHolder> {
 
-    private List<Person> personList;
-    private Context context;
-    private PersonEventListener listener;
+    private final List<Person> personList;
+    private final Context context;
+    private final PersonEventListener listener;
 
     private NavController navController;
 
@@ -62,40 +61,34 @@ public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecycl
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Person person = personList.get(position);
         holder.personName.setText(person.getName());
-        holder.personName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder alertDialog = editNameAlertDialog(holder.getLayoutPosition());
-                alertDialog.show();
-            }
+        holder.personName.setOnClickListener(view -> {
+            AlertDialog.Builder alertDialog = editNameAlertDialog(holder.getLayoutPosition());
+            alertDialog.show();
         });
 
         holder.deleteImageButton.setImageResource(R.drawable.ic_baseline_delete_24);
-        holder.deleteImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                personList.remove(holder.getLayoutPosition());
-                notifyItemRemoved(holder.getLayoutPosition());
+        holder.deleteImageButton.setOnClickListener(view -> {
+            personList.remove(holder.getLayoutPosition());
+            notifyItemRemoved(holder.getLayoutPosition());
 
-                if(CollectionUtils.isEmpty(personList)) {
+            if(CollectionUtils.isEmpty(personList)) {
 
-                    FragmentActivity activity = (FragmentActivity) context;
-                    if(ObjectUtils.isNotEmpty(activity)) {
-                        NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager()
-                                .findFragmentById(R.id.nav_host_fragment);
-                        if (ObjectUtils.isNotEmpty(navHostFragment)) {
-                            navController = navHostFragment.getNavController();
-                        }  else {
-                            Log.d("NamesListFragment", "navHostFragment it's empty");
-                        }
-                    } else {
-                        Log.d("NamesListFragment", "activity it's empty");
+                FragmentActivity activity = (FragmentActivity) context;
+                if(ObjectUtils.isNotEmpty(activity)) {
+                    NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager()
+                            .findFragmentById(R.id.nav_host_fragment);
+                    if (ObjectUtils.isNotEmpty(navHostFragment)) {
+                        navController = navHostFragment.getNavController();
+                    }  else {
+                        Log.d("NamesListFragment", "navHostFragment it's empty");
                     }
-                    navController.navigate(NamesListFragmentDirections.actionNamesListFragmentToMainFragment());
                 } else {
-                    if(personList.size() < 3) {
-                        listener.disableGenerateTeams();
-                    }
+                    Log.d("NamesListFragment", "activity it's empty");
+                }
+                navController.navigate(NamesListFragmentDirections.actionNamesListFragmentToMainFragment());
+            } else {
+                if(personList.size() < 3) {
+                    listener.disableGenerateTeams();
                 }
             }
         });
@@ -109,8 +102,8 @@ public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecycl
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private AppCompatTextView personName;
-        private AppCompatImageButton deleteImageButton;
+        private final AppCompatTextView personName;
+        private final AppCompatImageButton deleteImageButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -133,23 +126,17 @@ public class PersonRecyclerViewAdapter extends RecyclerView.Adapter<PersonRecycl
         input.setLayoutParams(lp);
         builder.setView(input);
 
-        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                String personName = input.getText().toString();
-                Person tempPerson = new Person(personName);
+        builder.setPositiveButton("Confirm", (dialog, id) -> {
+            String personName = input.getText().toString();
+            Person tempPerson = new Person(personName);
 
-                if(personList != null) {
-                    personList.set(position, tempPerson);
-                    notifyItemChanged(position);
-                }
+            if(personList != null) {
+                personList.set(position, tempPerson);
+                notifyItemChanged(position);
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
 
         return builder;
     }

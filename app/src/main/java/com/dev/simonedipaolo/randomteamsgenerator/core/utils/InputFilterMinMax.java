@@ -7,8 +7,8 @@ import android.text.Spanned;
  * Created by Simone Di Paolo on 25/01/2023.
  */
 public class InputFilterMinMax implements InputFilter {
-    private int min;
-    private int max;
+    private final int min;
+    private final int max;
 
     public InputFilterMinMax(int min, int max) {
         this.min = min;

@@ -16,8 +16,8 @@ public class RandomFlagGenerator {
     private static final String[] colors = new String[] {"#d32f2f", "#e91e63", "#9c27b0", "#673ab7",
             "#303f9f", "#1976d2", "#039be5", "#00bcd4", "#00897b", "#4caf50", "#8bc34a", "#cddc39",
             "#ffeb3b", "#ffc107", "#ff9800", "#e65100", "#ff5722", "#795548", "#607d8b"};
-    private List<Flag> flags;
-    private boolean makeCenterColorWhite;
+    private final List<Flag> flags;
+    private final boolean makeCenterColorWhite;
 
     public RandomFlagGenerator(int howManyFlags, boolean makeCenterColorWhite) {
         flags = new ArrayList<>();

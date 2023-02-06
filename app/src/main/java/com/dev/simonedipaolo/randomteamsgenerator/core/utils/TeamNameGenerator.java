@@ -1,14 +1,11 @@
 package com.dev.simonedipaolo.randomteamsgenerator.core.utils;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 
 import com.dev.simonedipaolo.randomteamsgenerator.core.bean.TeamName;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,14 +17,11 @@ import java.util.List;
 public class TeamNameGenerator {
     private static final Type REVIEW_TYPE = new TypeToken<ArrayList<String>>() {}.getType();
 
-    private List<TeamName> teamFullNames;
+    private final List<TeamName> teamFullNames;
     private List<String> firstNamesFromJson;
     private List<String> secondNamesFromJson;
 
-    private Context context;
-
     public TeamNameGenerator(Context context) {
-        this.context = context;
         this.teamFullNames = new ArrayList<>();
         try {
             //getGsonfromJson();

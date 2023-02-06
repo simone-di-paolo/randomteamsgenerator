@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
  * Created by Simone Di Paolo on 14/01/2023.
  */
 public class Person implements Parcelable {
-    private String name;
+    private final String name;
 
     public Person(Parcel in) {
         this.name = in.readString();

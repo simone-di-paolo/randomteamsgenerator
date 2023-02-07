@@ -3,8 +3,10 @@ package com.dev.simonedipaolo.randomteamsgenerator.fragments;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,6 +44,7 @@ public class MainFragment extends Fragment {
     private static final String FIRST_PERSON_KEY = "first_person";
 
     private NavController navController;
+    private CoordinatorLayout coordinatorLayout;
     private MaterialToolbar materialToolbar;
     private FragmentActivity fragmentActivity;
     private ObjectAnimator scaleDown;
@@ -66,19 +70,25 @@ public class MainFragment extends Fragment {
         //setToolbarMenu();
 
         Button addNameButton = v.findViewById(R.id.addNameButton);
-        addNameButton.setOnClickListener(view -> {
-            MaterialAlertDialogBuilder dialog = createDialog(getActivity());
-            setDialogOnClickListeners(dialog, dialogEditText);
-            AlertDialog alertDialog = dialog.show();
-            dialogEditText.setOnEditorActionListener((textView, i, keyEvent) -> {
-                confirmAndCandelDialogListener();
-                alertDialog.dismiss();
-                return false;
-            });
+        addNameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MaterialAlertDialogBuilder dialog = createDialog(getActivity());
+                setDialogOnClickListeners(dialog, dialogEditText);
+                AlertDialog alertDialog = dialog.show();
+                dialogEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                        confirmAndCandelDialogListener();
+                        alertDialog.dismiss();
+                        return false;
+                    }
+                });
 
-            // focus edit text and open keyboard
-            Utils.focusEditTextAndOpenKeyboard(dialogEditText, getActivity());
-            scaleDown.pause();
+                // focus edit text and open keyboard
+                Utils.focusEditTextAndOpenKeyboard(dialogEditText, getActivity());
+                scaleDown.pause();
+            }
         });
 
         // add button animation
@@ -131,33 +141,41 @@ public class MainFragment extends Fragment {
         input.setLayoutParams(lp);
         builder.setView(input);
 
-        builder.setPositiveButton("Add", (dialog1, id) -> {
-            String personName = input.getText().toString();
-            if(StringUtils.isNotBlank(personName)) {
-                Person tempPerson = new Person(personName);
-                Person[] emptyList = new Person[0];
-                MainFragmentDirections.ActionMainFragmentToNamesListFragment action =
-                        MainFragmentDirections.actionMainFragmentToNamesListFragment(tempPerson.getName(), emptyList);
-                navController.navigate(action);
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                String personName = input.getText().toString();
+                if(StringUtils.isNotBlank(personName)) {
+                    Person tempPerson = new Person(personName);
+                    Person[] emptyList = new Person[0];
+                    MainFragmentDirections.ActionMainFragmentToNamesListFragment action =
+                            MainFragmentDirections.actionMainFragmentToNamesListFragment(tempPerson.getName(), emptyList);
+                    navController.navigate(action);
 
-                materialToolbar.clearAnimation();
-                Animation animation = AnimationUtils.loadAnimation(fragmentActivity, R.anim.to_left);
-                animation.setFillAfter(true);
-                materialToolbar.startAnimation(animation);
-                materialToolbar.setClickable(false);
-            } else {
-                Snackbar.make(constraintLayout, "Please insert a valid name", Snackbar.LENGTH_SHORT)
-                        .setAction("Retry", view -> {
-                            MaterialAlertDialogBuilder dialog11 = createAddNameAlertDialog(getActivity());
-                            dialog11.show();
-                        })
-                        .show();
+                    materialToolbar.clearAnimation();
+                    Animation animation = AnimationUtils.loadAnimation(fragmentActivity, R.anim.to_left);
+                    animation.setFillAfter(true);
+                    materialToolbar.startAnimation(animation);
+                    materialToolbar.setClickable(false);
+                } else {
+                    Snackbar.make(constraintLayout, "Please insert a valid name", Snackbar.LENGTH_SHORT)
+                            .setAction("Retry", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    MaterialAlertDialogBuilder dialog = createAddNameAlertDialog(getActivity());
+                                    dialog.show();
+                                }
+                            })
+                            .show();
+                }
             }
+
         });
 
-        builder.setNegativeButton("Cancel", (dialog12, id) -> {
-            scaleDown.resume();
-            dialog12.cancel();
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                scaleDown.resume();
+                dialog.cancel();
+            }
         });
 
         return builder;
@@ -181,10 +199,17 @@ public class MainFragment extends Fragment {
     }
 
     private void setDialogOnClickListeners(MaterialAlertDialogBuilder builder, EditText dialogEditText) {
-        builder.setPositiveButton(R.string.add_lowercase_string, (dialog, id) -> confirmAndCandelDialogListener());
-        builder.setNegativeButton(R.string.cancel_string, (dialogInterface, i) -> {
-            // do nothing
-            scaleDown.resume();
+        builder.setPositiveButton(R.string.add_lowercase_string, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                confirmAndCandelDialogListener();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel_string, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // do nothing
+                scaleDown.resume();
+            }
         });
     }
 
@@ -205,17 +230,23 @@ public class MainFragment extends Fragment {
             materialToolbar.setClickable(false);
         } else {
             Snackbar.make(constraintLayout, R.string.please_valid_name_string, Snackbar.LENGTH_SHORT)
-                    .setAction(R.string.retry_string, view -> {
-                        scaleDown.pause();
-                        MaterialAlertDialogBuilder dialog = createDialog(getActivity());
-                        setDialogOnClickListeners(dialog, dialogEditText);
-                        AlertDialog alertDialog = dialog.show();
-                        dialogEditText.setOnEditorActionListener((textView, i, keyEvent) -> {
-                            confirmAndCandelDialogListener();
-                            alertDialog.dismiss();
-                            return false;
-                        });
-                        Utils.focusEditTextAndOpenKeyboard(dialogEditText, getActivity());
+                    .setAction(R.string.retry_string, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            scaleDown.pause();
+                            MaterialAlertDialogBuilder dialog = createDialog(getActivity());
+                            setDialogOnClickListeners(dialog, dialogEditText);
+                            AlertDialog alertDialog = dialog.show();
+                            dialogEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                                @Override
+                                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                                    confirmAndCandelDialogListener();
+                                    alertDialog.dismiss();
+                                    return false;
+                                }
+                            });
+                            Utils.focusEditTextAndOpenKeyboard(dialogEditText, getActivity());
+                        }
                     })
                     .show();
             scaleDown.resume();
@@ -239,13 +270,18 @@ public class MainFragment extends Fragment {
                     materialToolbar.setClickable(false);
 
                     // hide icons after animation started
-                    materialToolbar.postDelayed(() -> materialToolbar.setNavigationIcon(null), 500);
+                    materialToolbar.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            materialToolbar.setNavigationIcon(null);
+                        }
+                    }, 500);
 
                 }
             }
 
             // bottom bar
-            CoordinatorLayout coordinatorLayout = fragmentActivity.findViewById(R.id.coordinatorLayout);
+            coordinatorLayout = fragmentActivity.findViewById(R.id.coordinatorLayout);
             coordinatorLayout.setVisibility(View.GONE);
             coordinatorLayout.setClickable(false);
 

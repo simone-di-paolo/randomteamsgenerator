@@ -1,5 +1,6 @@
 package com.dev.simonedipaolo.randomteamsgenerator.activities;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,20 +13,27 @@ import com.google.android.material.bottomappbar.BottomAppBar;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
+
+    private MaterialToolbar materialToolbar;
+
+    private CoordinatorLayout coordinatorLayout;
+    private BottomAppBar bottomAppBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MaterialToolbar materialToolbar = findViewById(R.id.materialToolbar);
+        materialToolbar = findViewById(R.id.materialToolbar);
         materialToolbar.setTitle(StringUtils.EMPTY);
         setSupportActionBar(materialToolbar);
 
-        CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinatorLayout);
+        coordinatorLayout = findViewById(R.id.coordinatorLayout);
         coordinatorLayout.setVisibility(View.INVISIBLE);
-        BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
+        bottomAppBar = findViewById(R.id.bottomAppBar);
 
     }
 

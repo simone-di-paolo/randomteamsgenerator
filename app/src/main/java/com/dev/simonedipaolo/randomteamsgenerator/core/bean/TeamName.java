@@ -5,9 +5,9 @@ package com.dev.simonedipaolo.randomteamsgenerator.core.bean;
  */
 public class TeamName {
 
-    private final String firstName;
-    private final String secondName;
-    private final String teamFullName;
+    private String firstName;
+    private String secondName;
+    private String teamFullName;
 
     public TeamName(String firstName, String secondName) {
         this.firstName = firstName;

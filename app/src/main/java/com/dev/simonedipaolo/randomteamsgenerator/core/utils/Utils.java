@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -13,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -45,7 +48,7 @@ public class Utils {
         }
     }
 
-    public synchronized static List readListFromJson(Context context, String fileName) throws IOException {
+    public synchronized static List<String> readListFromJson(Context context, String fileName) throws IOException {
         AssetManager assetManager = context.getAssets();
         InputStream is = assetManager.open(fileName);
         int size = is.available();
@@ -58,10 +61,19 @@ public class Utils {
     }
 
     public static void focusEditTextAndOpenKeyboard(EditText dialogEditText, FragmentActivity activity) {
-        dialogEditText.setOnFocusChangeListener((view, b) -> dialogEditText.postDelayed(() -> {
-            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.showSoftInput(dialogEditText, InputMethodManager.SHOW_IMPLICIT);
-        }, 500));
+        dialogEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                dialogEditText.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputMethodManager.showSoftInput(dialogEditText, InputMethodManager.SHOW_IMPLICIT);
+                    }
+
+                }, 500);
+            }
+        });
         dialogEditText.requestFocus();
     }
 

@@ -13,12 +13,12 @@ import java.util.List;
  */
 public class NamesShuffler {
 
-    private List<Person> unmodifiebleNamesList;
+    private final List<Person> unmodifiebleNamesList;
     private List<Person> names;
     private int howManyTeams;
 
-    private List<List<Person>> teams;
-    private int howManyMissingNames;
+    private final List<List<Person>> teams;
+    private final int howManyMissingNames;
 
     public NamesShuffler() {
         unmodifiebleNamesList = new ArrayList<>();

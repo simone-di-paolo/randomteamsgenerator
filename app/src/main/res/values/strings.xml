@@ -2,7 +2,7 @@
     <string name="app_name">Random Team Generator</string>
 
     <!-- ACTIVITY STRINGS -->
-    <string name="main_activity_app_title">Random Teams Generator</string>
+    <string name="main_activity_app_title" translatable="false">Random Teams Generator</string>
 
     <!-- MAIN FRAGMENT STRINGS -->
     <string name="add_name">Click the button to add a name</string>
@@ -21,9 +21,9 @@
 
 
     <!-- FRAGMENT TEAMS LIST -->
-    <string name="first_default_team_name">Pinguini Tattici</string>
+    <string name="first_default_team_name" translatable="false">Pinguini Tattici</string>
     <string name="first_default_number">1</string>
-    <string name="first_default_team_member_name">1 - Mario Rossi</string>
+    <string name="first_default_team_member_name" translatable="false">1 - Mario Rossi</string>
     <string name="alert_update_text">You are going to re-generate every teams from zero. \nAre you sure?</string>
 
 
@@ -33,8 +33,8 @@
     <string name="teams_title">Teams</string>
 
     <!-- Toolbar Icons -->
-    <string name="toolbar_info_title">Info</string>
-    <string name="toolbar_info_description">Info</string>
+    <string name="toolbar_info_title" translatable="false">Info</string>
+    <string name="toolbar_info_description" translatable="false">Info</string>
     <string name="toolbar_update_title">Update</string>
     <string name="toolbar_update_description">Update</string>
 
@@ -50,6 +50,7 @@
     <string name="please_valid_name_string">Please insert a valid name</string>
     <string name="generate_button_text">GENERATE</string>
     <string name="regenerate_button_text">RE-GENERATE</string>
+    <string name="settings_string">Settings</string>
 
 
 </resources>

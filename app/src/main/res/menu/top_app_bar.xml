@@ -10,4 +10,12 @@
         android:contentDescription="@string/toolbar_info_description"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings_24dp"
+        android:iconTint="@color/md_theme_light_onSecondaryContainer"
+        android:title="@string/settings_string"
+        android:contentDescription="@string/settings_string"
+        app:showAsAction="collapseActionView" />
+
 </menu>

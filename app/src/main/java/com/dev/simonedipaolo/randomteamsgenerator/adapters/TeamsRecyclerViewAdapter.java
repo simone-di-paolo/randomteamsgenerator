@@ -32,12 +32,12 @@ import java.util.List;
  */
 public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecyclerViewAdapter.ViewHolder> {
 
-    private final Context context;
-    private final List<List<Person>> teams;
+    private Context context;
+    private List<List<Person>> teams;
 
-    private final List<Flag> flags;
-    private final List<TeamName> teamNameList;
-    private final List<Row> rows;
+    private List<Flag> flags;
+    private List<TeamName> teamNameList;
+    private List<Row> rows;
 
     public TeamsRecyclerViewAdapter(Context context, List<List<Person>> teams, List<TeamName> teamNameList, List<Flag> flags, List<Row> rows) {
         this.context = context;
@@ -87,15 +87,15 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final Button flagFirstButton;
-        private final Button flagSecondButton;
-        private final Button flagThirdButton;
-        private final ConstraintLayout constraintLayout;
+        private Button flagFirstButton;
+        private Button flagSecondButton;
+        private Button flagThirdButton;
+        private ConstraintLayout constraintLayout;
 
-        private final AppCompatTextView membersNameTextView;
-        private final AppCompatTextView teamNumberTextView;
+        private AppCompatTextView membersNameTextView;
+        private AppCompatTextView teamNumberTextView;
 
-        private final AppCompatTextView teamNameTextView;
+        private AppCompatTextView teamNameTextView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -136,12 +136,12 @@ public class TeamsRecyclerViewAdapter extends RecyclerView.Adapter<TeamsRecycler
     }
 
     private String createStringWithNames(int index) {
-        StringBuilder teamNames = new StringBuilder(StringUtils.EMPTY);
+        String teamNames = StringUtils.EMPTY;
         List<Person> tempSingleTeam = teams.get(index);
         for (int i=0; i<tempSingleTeam.size(); i++) {
-            teamNames.append(i + 1).append(" - ").append(tempSingleTeam.get(i).getName()).append("\n");
+            teamNames += (i+1) + " - " + tempSingleTeam.get(i).getName() + "\n";
         }
-        return teamNames.toString();
+        return teamNames;
     }
 
 }

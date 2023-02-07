@@ -1,22 +1,19 @@
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
+<div align="left">
   <a href="https://github.com/simone-di-paolo">
-    <img src="docs/assets/sdp-logo-black.png" alt="Logo" width="80" height="80">
+    <img src="resources/img/sdp-logo-black.png" alt="Logo" width="80" height="80">
   </a>
 </div>
 
-# RANDOM TEAM GENERATOR - ANDROID
+<div align="left">
+  <h3>RANDOM TEAM GENERATOR - ANDROID</h3>
 
-## About The Project
+  <p text-align="center">
+  This app will create n teams by selecting random names from a list.
 
-This app will create n teams by selecting random names from a list.  
-...well, this app could be useful during Christmas games!  
-Once done will be published on Play Store and will be completely free.
+  ...well, this app could be useful during Christmas games!
 
-## Screenshots
-
-<div align="center">
-<img src="./docs/assets/screenshot-Main.png" width="300"  />
-<img style="margin-left: 100px" src="./docs/assets/screenshot-Generate.png" width="300"/>
+  Once done will be published on Play Store and will be completely free.
+  </p>
 </div>

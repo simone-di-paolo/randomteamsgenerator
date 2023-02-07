@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Row {
 
-    private final String rowColor;
+    private String rowColor;
 
     public Row() {
         rowColor = StringUtils.EMPTY;

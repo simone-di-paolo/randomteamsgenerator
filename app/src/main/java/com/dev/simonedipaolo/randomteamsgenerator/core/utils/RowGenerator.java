@@ -15,9 +15,9 @@ import java.util.List;
  */
 public class RowGenerator {
 
-    private final Context context;
-    private final List<Row> rows;
-    private final int howMany;
+    private Context context;
+    private List<Row> rows;
+    private int howMany;
 
     public RowGenerator() {
         rows = new ArrayList<>();

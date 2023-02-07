@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Random Team Generator</string>
+    <string name="add_name">Clicca qui per aggiungere un nome</string>
+    <string name="add_button">AGGIUNGI</string>
+    <string name="temp_name">Nome...</string>
+    <string name="delete_button">Annulla</string>
+    <string name="edit_button">Modifica</string>
+    <string name="generate_teams">GENERA</string>
+    <string name="add_names_floating_button_description">Aggiungi un nome</string>
+    <string name="info_text_view">Fare clic su un nome per modificarlo. Sentiti libero di aggiungere o cancellare tutti quelli che volete.</string>
+    <string name="help_text">"\\u2022 Il pulsante di generazione sarà disponibile una volta aggiunti almeno tre nomi.  "</string>
+    <string name="first_default_number">"\\u2022 Dopo aver fatto clic sul pulsante GENERA, è necessario scegliere il numero di squadre che si desidera creare.  "</string>
+    <string name="alert_update_text">\\u2022 Se elimini tutti i nomi, verrai automaticamente reindirizzato alla pagina principale.</string>
+    <string name="names_title">Nomi</string>
+    <string name="teams_title">Squadre</string>
+    <string name="toolbar_update_title">Aggiorna</string>
+    <string name="toolbar_update_description">Aggiorna</string>
+    <string name="continue_string">Continua</string>
+    <string name="confirm_string">Conferma</string>
+    <string name="add_lowercase_string">AGGIUNGI</string>
+    <string name="cancel_string">Cancella</string>
+    <string name="name_string">Nome</string>
+    <string name="type_a_name_string">Scrivi un nome:</string>
+    <string name="clear_button_text">PULISCI TUTTO</string>
+    <string name="retry_string">Riprova</string>
+    <string name="please_valid_name_string">Perfavore, inserisci un nome valido</string>
+    <string name="generate_button_text">GENERA</string>
+    <string name="regenerate_button_text">RIGENERA</string>
+    <string name="settings_string">Impostazioni</string>
+</resources>

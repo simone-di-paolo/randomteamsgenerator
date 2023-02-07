@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="UI Settings">
+        <SwitchPreference
+            android:key="theme_preference"
+            android:defaultValue="false"
+            android:title="Enable Dark Theme"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="About">
+        <Preference
+            android:title="Version"
+            android:summary="0.1.1" />
+        <Preference
+            android:key="contact_preference"
+            android:title="About me"
+            android:summary="SdP-Dev\nSimone Di Paolo">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/simone-di-paolo"/>
+        </Preference>
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

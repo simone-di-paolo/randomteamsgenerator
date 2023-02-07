@@ -1,6 +1,6 @@
 package com.dev.simonedipaolo.randomteamsgenerator.fragments;
 
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +14,6 @@ import android.view.animation.AnimationUtils;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
@@ -51,21 +50,18 @@ public class GeneratedTeamsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private TeamsRecyclerViewAdapter adapter;
-    private Person[] personArray;
     private List<Person> personList;
     private List<List<Person>> teams;
     private List<Flag> flags;
     private List<Row> rows;
     private List<TeamName> teamNameList;
     private int howManyTeams;
-    private NamesShuffler namesShuffler;
 
     // navigation
     private NavController navController;
     private MaterialToolbar materialToolbar;
 
     private FragmentActivity activity;
-    private FloatingActionButton addFAB;
 
     public GeneratedTeamsFragment() {
         // Required empty public constructor
@@ -84,7 +80,7 @@ public class GeneratedTeamsFragment extends Fragment {
             // initializing personList and recycler view
             Bundle bundle = getArguments();
             if(ObjectUtils.isNotEmpty(bundle)) {
-                personArray = GeneratedTeamsFragmentArgs.fromBundle(getArguments()).getPersonList();
+                Person[] personArray = GeneratedTeamsFragmentArgs.fromBundle(getArguments()).getPersonList();
                 howManyTeams = GeneratedTeamsFragmentArgs.fromBundle(getArguments()).getHowManyTeams();
 
                 // managing go back
@@ -162,7 +158,7 @@ public class GeneratedTeamsFragment extends Fragment {
 
     /**
      * This method will initialize toolbar
-     * @param activity
+     * @param activity the activity
      */
     private void initializeToolbar(FragmentActivity activity) {
         materialToolbar = activity.findViewById(R.id.materialToolbar);
@@ -172,24 +168,21 @@ public class GeneratedTeamsFragment extends Fragment {
                 // toolbar
                 materialToolbar.setNavigationIcon(R.drawable.ic_back_24dp);
                 materialToolbar.setTitle(R.string.teams_title);
-                materialToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Person[] personArray = new Person[personList.size()];
-                        for(int i=0; i<personList.size(); i++) {
-                            personArray[i] = personList.get(i);
-                        }
-                        GeneratedTeamsFragmentDirections.ActionGeneratedTeamsFragmentToNamesListFragment action
-                                = GeneratedTeamsFragmentDirections.actionGeneratedTeamsFragmentToNamesListFragment(StringUtils.EMPTY, personArray);
-                        navController.navigate(action);
-
-
-                        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.to_right);
-                        animation.setFillAfter(true);
-                        animation.setStartOffset(25);
-                        materialToolbar.clearAnimation();
-                        materialToolbar.startAnimation(animation);
+                materialToolbar.setNavigationOnClickListener(view -> {
+                    Person[] personArray = new Person[personList.size()];
+                    for(int i=0; i<personList.size(); i++) {
+                        personArray[i] = personList.get(i);
                     }
+                    GeneratedTeamsFragmentDirections.ActionGeneratedTeamsFragmentToNamesListFragment action
+                            = GeneratedTeamsFragmentDirections.actionGeneratedTeamsFragmentToNamesListFragment(StringUtils.EMPTY, personArray);
+                    navController.navigate(action);
+
+
+                    Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.to_right);
+                    animation.setFillAfter(true);
+                    animation.setStartOffset(25);
+                    materialToolbar.clearAnimation();
+                    materialToolbar.startAnimation(animation);
                 });
 
                 materialToolbar.setTitle(R.string.teams_title);
@@ -201,10 +194,10 @@ public class GeneratedTeamsFragment extends Fragment {
 
     /**
      * This method will just initializeFAB (hiding)
-     * @param activity
+     * @param activity the activity
      */
     private void initializeFAB(FragmentActivity activity) {
-        addFAB = activity.findViewById(R.id.addBottomBarFloatingActionButton);
+        FloatingActionButton addFAB = activity.findViewById(R.id.addBottomBarFloatingActionButton);
         addFAB.setClickable(false);
         addFAB.setVisibility(View.GONE);
     }
@@ -223,20 +216,14 @@ public class GeneratedTeamsFragment extends Fragment {
                     new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogInfo_App)
                             .setIcon(R.drawable.ic_info_24dp)
                             .setMessage(R.string.alert_update_text)
-                            .setPositiveButton(getResources().getString(R.string.confirm_string), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    generateFlagsAndTeams();
-                                    adapter = new TeamsRecyclerViewAdapter(activity, teams, teamNameList, flags, rows);
-                                    recyclerView.setAdapter(adapter);
-                                    adapter.notifyDataSetChanged();
-                                }
+                            .setPositiveButton(getResources().getString(R.string.confirm_string), (dialogInterface, i) -> {
+                                generateFlagsAndTeams();
+                                adapter = new TeamsRecyclerViewAdapter(activity, teams, teamNameList, flags, rows);
+                                recyclerView.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
                             })
-                            .setNegativeButton(getResources().getString(R.string.cancel_string), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    // nothing
-                                }
+                            .setNegativeButton(getResources().getString(R.string.cancel_string), (dialogInterface, i) -> {
+                                // nothing
                             })
                             .show();
                     return true;
@@ -248,7 +235,7 @@ public class GeneratedTeamsFragment extends Fragment {
 
     private void generateFlagsAndTeams() {
         // generate new team member names
-        namesShuffler = new NamesShuffler(personList, howManyTeams);
+        NamesShuffler namesShuffler = new NamesShuffler(personList, howManyTeams);
         teams = namesShuffler.getTeams();
 
         // generate flags

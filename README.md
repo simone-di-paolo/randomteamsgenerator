@@ -7,6 +7,9 @@
 </div>
 
 # RANDOM TEAM GENERATOR - ANDROID
+<div align="center">
+  <img src="./resources/img/ic_launcher_google_play.png" height="150"/>
+</div>
 
 ## About The Project
 

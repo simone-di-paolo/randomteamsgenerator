@@ -24,3 +24,11 @@ Once done will be published on Play Store and will be completely free.
     <img style="margin-left: 100px" src="./resources/img/second.png" height="500"/>
     <img style="margin-left: 100px" src="./resources/img/third.png" height="500"/>
 </div>
+
+## Contributors
+<div align="left">
+  <h4>Thanks for the contribution to:</h4>
+  <ul>
+    <li><a href="https://github.com/bircni" target="_blank">bircni</a></li>
+  </ul>
+</div>

@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        android:title="UI Settings">
-        <SwitchPreference
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreferenceCategory
+        android:title="@string/ui_settings_string">
+        <com.dev.simonedipaolo.randomteamsgenerator.preference.CustomSwitchPreference
             android:key="theme_preference"
             android:defaultValue="false"
-            android:title="Enable Dark Theme"/>
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:title="About">
-        <Preference
-            android:title="Version"
+            android:title="@string/enable_dark_theme_string"/>
+    </com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreferenceCategory>
+    <com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreferenceCategory
+        android:title="@string/about_String">
+        <com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreference
+            android:title="@string/version_string"
             android:summary="0.1.1" />
-        <Preference
+        <com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreference
             android:key="contact_preference"
-            android:title="About me"
-            android:summary="SdP-Dev\nSimone Di Paolo">
+            android:title="@string/about_me_string"
+            android:summary="@string/about_me_summary_string">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/simone-di-paolo"/>
-        </Preference>
-    </PreferenceCategory>
+        </com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreference>
+    </com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreferenceCategory>
+    <com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreferenceCategory
+        android:title="@string/thanks_contribute_string">
+        <com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreference
+            android:key="bircni_contacts"
+            android:title="@string/bircni_name_string">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/bircni"/>
+        </com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreference>
+    </com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreferenceCategory>
 </androidx.preference.PreferenceScreen>

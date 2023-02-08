@@ -4,15 +4,21 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -63,6 +69,38 @@ public class Utils {
             inputMethodManager.showSoftInput(dialogEditText, InputMethodManager.SHOW_IMPLICIT);
         }, 500));
         dialogEditText.requestFocus();
+    }
+
+    /**
+     *
+     * @param fragmentActivity the fragmentActivity
+     * @param navController the navController
+     * @param navDirections the direction from A fragment to B fragment
+     * @param toolbarTitleResId the resId of the title string
+     */
+    public static void initializeToolbar(FragmentActivity fragmentActivity, NavController navController, NavDirections navDirections, int toolbarTitleResId) {
+        MaterialToolbar materialToolbar = fragmentActivity.findViewById(R.id.materialToolbar);
+        if(ObjectUtils.isNotEmpty(materialToolbar)) {
+            AppCompatActivity appCompatActivity = (AppCompatActivity) fragmentActivity;
+            if(ObjectUtils.isNotEmpty(appCompatActivity)) {
+                // toolbar
+                materialToolbar.setNavigationIcon(R.drawable.ic_back_24dp);
+                materialToolbar.setNavigationOnClickListener(view -> {
+                    Animation animation = AnimationUtils.loadAnimation(appCompatActivity, R.anim.to_right);
+                    animation.setFillAfter(true);
+                    animation.setStartOffset(50);
+                    materialToolbar.clearAnimation();
+                    materialToolbar.startAnimation(animation);
+                    materialToolbar.setClickable(false);
+
+                    navController.navigate(navDirections);
+                });
+
+                materialToolbar.setTitle(toolbarTitleResId);
+                materialToolbar.setVisibility(View.VISIBLE);
+                materialToolbar.showOverflowMenu();
+            }
+        }
     }
 
 }

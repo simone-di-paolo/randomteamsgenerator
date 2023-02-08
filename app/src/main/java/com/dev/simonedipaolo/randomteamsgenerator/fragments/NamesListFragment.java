@@ -89,6 +89,15 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
 
         if(ObjectUtils.isNotEmpty(activity)) {
 
+            // nav host fragment
+            NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager()
+                    .findFragmentById(R.id.nav_host_fragment);
+            if (ObjectUtils.isNotEmpty(navHostFragment)) {
+                navController = navHostFragment.getNavController();
+            }  else {
+                Log.d("NamesListFragment", "navHostFragment it's empty");
+            }
+
             // setup go back button in top bar
             initializeToolbar(activity);
             // enable menu icosn
@@ -101,14 +110,6 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
             // FAB
             initializeFAB(activity);
 
-            /// nav host fragment
-            NavHostFragment navHostFragment = (NavHostFragment) activity.getSupportFragmentManager()
-                    .findFragmentById(R.id.nav_host_fragment);
-            if (ObjectUtils.isNotEmpty(navHostFragment)) {
-                navController = navHostFragment.getNavController();
-            }  else {
-                Log.d("NamesListFragment", "navHostFragment it's empty");
-            }
         } else {
             Log.d("NamesListFragment", "activity it's empty");
         }
@@ -286,6 +287,9 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
                             })
                             .show();
                     return true;
+                }
+                if(resId == R.id.settings) {
+                    navController.navigate(NamesListFragmentDirections.actionNamesListFragmentToSettingsFragment());
                 }
                 return false;
             }

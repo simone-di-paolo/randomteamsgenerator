@@ -28,4 +28,10 @@
     <string name="generate_button_text">GENERA</string>
     <string name="regenerate_button_text">RIGENERA</string>
     <string name="settings_string">Impostazioni</string>
+    <string name="ui_settings_string">Impostazioni UI</string>
+    <string name="enable_dark_theme_string">Abilita Tema Scuro</string>
+    <string name="about_String">Info</string>
+    <string name="version_string">Versione</string>
+    <string name="about_me_string">Chi sono</string>
+    <string name="thanks_contribute_string">Grazie per il contributo a:</string>
 </resources>

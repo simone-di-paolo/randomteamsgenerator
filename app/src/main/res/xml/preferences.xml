@@ -14,7 +14,7 @@
         android:title="@string/about_String">
         <com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreference
             android:title="@string/version_string"
-            android:summary="0.1.1" />
+            android:summary="" />
         <com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreference
             android:key="contact_preference"
             android:title="@string/about_me_string"

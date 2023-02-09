@@ -337,21 +337,47 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
             Person tempPerson = new Person(personName);
 
             if (personList != null) {
-                personList.add(tempPerson);
-                adapter.notifyDataSetChanged();
-                if (personList.size() >= 3) {
-                    generateTeamsButton.setEnabled(true);
-                    generateTeamsButton.setVisibility(View.VISIBLE);
-
-                    if (!generateButtonAnimationFromBottomAlreadyTriggered) {
-                        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_bottom);
-                        animation.setFillAfter(true);
-                        generateTeamsButton.clearAnimation();
-                        generateTeamsButton.setAnimation(animation);
-                        generateTeamsButton.startAnimation(animation);
-                        generateButtonAnimationFromBottomAlreadyTriggered = true;
-                        generateButtonAnimationToBottomAlreadyTriggered = false;
+                // checking that didn't exist a name equals to that one added
+                boolean alreadyExistAPersonWithThatName = false;
+                for(Person temp : personList) {
+                    if(temp.getName().equalsIgnoreCase(personName)) {
+                        alreadyExistAPersonWithThatName = true;
                     }
+                }
+                if(!alreadyExistAPersonWithThatName) {
+                    personList.add(tempPerson);
+                    adapter.notifyDataSetChanged();
+                    if (personList.size() >= 3) {
+                        generateTeamsButton.setEnabled(true);
+                        generateTeamsButton.setVisibility(View.VISIBLE);
+
+                        if (!generateButtonAnimationFromBottomAlreadyTriggered) {
+                            Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.from_bottom);
+                            animation.setFillAfter(true);
+                            generateTeamsButton.clearAnimation();
+                            generateTeamsButton.setAnimation(animation);
+                            generateTeamsButton.startAnimation(animation);
+                            generateButtonAnimationFromBottomAlreadyTriggered = true;
+                            generateButtonAnimationToBottomAlreadyTriggered = false;
+                        }
+                    }
+                } else {
+                    Log.d("NamesListFragment", "Already exist a person with that name.");
+                    Snackbar.make(constraintLayout, R.string.name_already_exist_string, Snackbar.LENGTH_SHORT)
+                            .setAction(R.string.retry_string, view -> {
+                                MaterialAlertDialogBuilder dialog = createDialog(getActivity());
+                                setDialogOnClickListeners(dialog, dialogEditText);
+                                AlertDialog alertDialog = dialog.show();
+                                dialogEditText.setOnEditorActionListener((textView, i, keyEvent) -> {
+                                    confirmAndCandelDialogListener();
+                                    alertDialog.dismiss();
+                                    return false;
+                                });
+                                addFAB.setVisibility(View.GONE);
+                                // focus edit text and open keyboard
+                                Utils.focusEditTextAndOpenKeyboard(dialogEditText, getActivity());
+                            })
+                            .show();
                 }
             }
         } else {

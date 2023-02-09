@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -110,6 +111,11 @@ public class GeneratedTeamsFragment extends Fragment {
             //
             addMenuProvider(activity);
             initializeToolbar(activity);
+
+            // bottom bar
+            CoordinatorLayout coordinatorLayout = activity.findViewById(R.id.coordinatorLayout);
+            coordinatorLayout.setVisibility(View.GONE);
+            coordinatorLayout.setClickable(false);
 
             // intro anim
             Animation animation = AnimationUtils.loadAnimation(activity, R.anim.from_right);

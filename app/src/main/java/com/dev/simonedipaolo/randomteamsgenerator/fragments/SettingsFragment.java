@@ -5,8 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
@@ -16,6 +19,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.core.utils.Utils;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -26,6 +30,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor myPrefsPrefsEditor;
+
+    private NavController navController;
+    private MaterialToolbar materialToolbar;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -39,7 +46,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         if(ObjectUtils.isNotEmpty(fragmentActivity)) {
             sharedPreferences = fragmentActivity.getSharedPreferences(MODE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
 
-            NavController navController = null;
+            navController = null;
             NavHostFragment navHostFragment = (NavHostFragment) fragmentActivity.getSupportFragmentManager()
                     .findFragmentById(R.id.nav_host_fragment);
             if (ObjectUtils.isNotEmpty(navHostFragment)) {
@@ -50,7 +57,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
             // initialize toolbar
             NavDirections navDirections = SettingsFragmentDirections.actionSettingsFragmentToMainFragment();
-            Utils.initializeToolbar(fragmentActivity, navController, navDirections, R.string.settings_string);
+            Utils.initializeToolbar(true, fragmentActivity, navController, navDirections, R.string.settings_string, R.anim.from_left);
 
             // disabling bottom bar
             CoordinatorLayout coordinatorLayout = fragmentActivity.findViewById(R.id.coordinatorLayout);

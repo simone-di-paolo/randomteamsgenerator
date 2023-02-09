@@ -33,4 +33,5 @@
     <string name="version_string">Versione</string>
     <string name="about_me_string">Chi sono</string>
     <string name="thanks_contribute_string">Grazie per il contributo a:</string>
+    <string name="name_already_exist_string">Il nome inserito è già presente nella lista.</string>
 </resources>

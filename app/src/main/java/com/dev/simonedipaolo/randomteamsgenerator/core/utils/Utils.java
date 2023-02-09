@@ -78,27 +78,33 @@ public class Utils {
      * @param navDirections the direction from A fragment to B fragment
      * @param toolbarTitleResId the resId of the title string
      */
-    public static void initializeToolbar(FragmentActivity fragmentActivity, NavController navController, NavDirections navDirections, int toolbarTitleResId) {
+    public static void initializeToolbar(boolean enableToolbar, FragmentActivity fragmentActivity, NavController navController, NavDirections navDirections, int toolbarTitleResId, int animResId) {
         MaterialToolbar materialToolbar = fragmentActivity.findViewById(R.id.materialToolbar);
         if(ObjectUtils.isNotEmpty(materialToolbar)) {
             AppCompatActivity appCompatActivity = (AppCompatActivity) fragmentActivity;
             if(ObjectUtils.isNotEmpty(appCompatActivity)) {
-                // toolbar
-                materialToolbar.setNavigationIcon(R.drawable.ic_back_24dp);
-                materialToolbar.setNavigationOnClickListener(view -> {
-                    Animation animation = AnimationUtils.loadAnimation(appCompatActivity, R.anim.to_right);
-                    animation.setFillAfter(true);
-                    animation.setStartOffset(50);
-                    materialToolbar.clearAnimation();
-                    materialToolbar.startAnimation(animation);
+                if (enableToolbar) {
+                    // enable toolbar
+                    // toolbar
+                    materialToolbar.setNavigationIcon(R.drawable.ic_back_24dp);
+                    materialToolbar.setNavigationOnClickListener(view -> {
+                        materialToolbar.clearAnimation();
+                        Animation animation = AnimationUtils.loadAnimation(appCompatActivity, animResId);
+                        animation.setFillAfter(true);
+                        animation.setStartOffset(50);
+                        materialToolbar.startAnimation(animation);
+                        materialToolbar.setClickable(true);
+                        navController.navigate(navDirections);
+                    });
+
+                    materialToolbar.setTitle(toolbarTitleResId);
+                    materialToolbar.setVisibility(View.VISIBLE);
+                    materialToolbar.showOverflowMenu();
+                } else {
+                    // disable toolbar
+                    materialToolbar.setVisibility(View.GONE);
                     materialToolbar.setClickable(false);
-
-                    navController.navigate(navDirections);
-                });
-
-                materialToolbar.setTitle(toolbarTitleResId);
-                materialToolbar.setVisibility(View.VISIBLE);
-                materialToolbar.showOverflowMenu();
+                }
             }
         }
     }

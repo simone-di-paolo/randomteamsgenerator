@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--
     <com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreferenceCategory
         android:title="@string/ui_settings_string">
         <com.dev.simonedipaolo.randomteamsgenerator.preference.CustomSwitchPreference
@@ -8,6 +9,7 @@
             android:defaultValue="false"
             android:title="@string/enable_dark_theme_string"/>
     </com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreferenceCategory>
+    -->
     <com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreferenceCategory
         android:title="@string/about_String">
         <com.dev.simonedipaolo.randomteamsgenerator.preference.CustomPreference

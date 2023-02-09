@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Simone Di Paolo on 27/01/2023.
@@ -25,8 +26,9 @@ public class TeamNameGenerator {
         this.teamFullNames = new ArrayList<>();
         try {
             //getGsonfromJson();
-            firstNamesFromJson = Utils.readListFromJson(context, "firstNames.json");
-            secondNamesFromJson = Utils.readListFromJson(context, "secondNames.json");
+            String locale = Locale.getDefault().getLanguage().equals("it") ? "it" : "en";
+            firstNamesFromJson = Utils.readListFromJson(context, locale+"/firstNames_"+locale+".json");
+            secondNamesFromJson = Utils.readListFromJson(context, locale+"/secondNames_"+locale+".json");
             populateTeamsNamesList();
         } catch (IOException e) {
             e.printStackTrace();

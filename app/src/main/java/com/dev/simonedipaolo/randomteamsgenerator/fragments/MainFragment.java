@@ -46,6 +46,7 @@ public class MainFragment extends Fragment {
     private ObjectAnimator scaleDown;
     private ConstraintLayout constraintLayout;
     private EditText dialogEditText;
+    private Button firstFragmentSettingsButton;
 
     public MainFragment() {
         // Required empty public constructor
@@ -63,7 +64,8 @@ public class MainFragment extends Fragment {
         fragmentActivity = getActivity();
         constraintLayout = v.findViewById(R.id.mainFragmentConstraintLayout);
         bottomAndTopBarInitializer();
-        //setToolbarMenu();
+
+        firstFragmentSettingsButton = v.findViewById(R.id.firstFragmentSettingsButton);
 
         Button addNameButton = v.findViewById(R.id.addNameButton);
         addNameButton.setOnClickListener(view -> {
@@ -113,54 +115,11 @@ public class MainFragment extends Fragment {
             Log.d("NamesListFragment", "activity it's empty");
         }
 
-    }
-
-    // alert dialog
-    private MaterialAlertDialogBuilder createAddNameAlertDialog(Context context) {
-        MaterialAlertDialogBuilder dialog = createDialog(getActivity());
-        // -old
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
-        builder.setMessage("Type a name:");
-
-        final EditText input = new EditText(context);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        );
-        input.setContentDescription(getResources().getString(R.string.name_string));
-        input.setLayoutParams(lp);
-        builder.setView(input);
-
-        builder.setPositiveButton("Add", (dialog1, id) -> {
-            String personName = input.getText().toString();
-            if(StringUtils.isNotBlank(personName)) {
-                Person tempPerson = new Person(personName);
-                Person[] emptyList = new Person[0];
-                MainFragmentDirections.ActionMainFragmentToNamesListFragment action =
-                        MainFragmentDirections.actionMainFragmentToNamesListFragment(tempPerson.getName(), emptyList);
-                navController.navigate(action);
-
-                materialToolbar.clearAnimation();
-                Animation animation = AnimationUtils.loadAnimation(fragmentActivity, R.anim.to_left);
-                animation.setFillAfter(true);
-                materialToolbar.startAnimation(animation);
-                materialToolbar.setClickable(false);
-            } else {
-                Snackbar.make(constraintLayout, "Please insert a valid name", Snackbar.LENGTH_SHORT)
-                        .setAction("Retry", view -> {
-                            MaterialAlertDialogBuilder dialog11 = createAddNameAlertDialog(getActivity());
-                            dialog11.show();
-                        })
-                        .show();
+        firstFragmentSettingsButton.setOnClickListener(view1 -> {
+            if(ObjectUtils.isNotEmpty(navController)) {
+                navController.navigate(MainFragmentDirections.actionMainFragmentToSettingsFragment());
             }
         });
-
-        builder.setNegativeButton("Cancel", (dialog12, id) -> {
-            scaleDown.resume();
-            dialog12.cancel();
-        });
-
-        return builder;
 
     }
 

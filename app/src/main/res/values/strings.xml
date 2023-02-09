@@ -22,7 +22,7 @@
 
     <!-- FRAGMENT TEAMS LIST -->
     <string name="first_default_team_name" translatable="false">Pinguini Tattici</string>
-    <string name="first_default_number">1</string>
+    <string name="first_default_number" translatable="false">1</string>
     <string name="first_default_team_member_name" translatable="false">1 - Mario Rossi</string>
     <string name="alert_update_text">You are going to re-generate every teams from zero. \nAre you sure?</string>
 

@@ -9,9 +9,8 @@
     <string name="generate_teams">GENERA</string>
     <string name="add_names_floating_button_description">Aggiungi un nome</string>
     <string name="info_text_view">Fare clic su un nome per modificarlo. Sentiti libero di aggiungere o cancellare tutti quelli che volete.</string>
-    <string name="help_text">"\\u2022 Il pulsante di generazione sarà disponibile una volta aggiunti almeno tre nomi.  "</string>
-    <string name="first_default_number">"\\u2022 Dopo aver fatto clic sul pulsante GENERA, è necessario scegliere il numero di squadre che si desidera creare.  "</string>
-    <string name="alert_update_text">\\u2022 Se elimini tutti i nomi, verrai automaticamente reindirizzato alla pagina principale.</string>
+    <string name="help_text">"Il pulsante di generazione sarà disponibile una volta aggiunti almeno tre nomi. Dopo aver fatto clic sul pulsante Genera, è necessario scegliere il numero di squadre che si desidera creare. Se si eliminano tutti i nomi, si viene richiamati alla pagina iniziale."</string>
+    <string name="alert_update_text">Stai per ri-generare tutti i team da zero. Sei sicuro?</string>
     <string name="names_title">Nomi</string>
     <string name="teams_title">Squadre</string>
     <string name="toolbar_update_title">Aggiorna</string>

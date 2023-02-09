@@ -48,6 +48,7 @@
     <string name="clear_button_text">CLEAR</string>
     <string name="retry_string">Retry</string>
     <string name="please_valid_name_string">Please insert a valid name</string>
+    <string name="name_already_exist_string">That name added is already available in the list.</string>
     <string name="generate_button_text">GENERATE</string>
     <string name="regenerate_button_text">RE-GENERATE</string>
     <string name="settings_string">Settings</string>
@@ -57,6 +58,7 @@
     <string name="enable_dark_theme_string">Enable Dark Theme</string>
     <string name="about_String">About</string>
     <string name="version_string">Version</string>
+    <string name="version_number_string" translatable="false">1.0</string>
     <string name="about_me_string">About me</string>
     <string name="about_me_summary_string" translatable="false">SdP-Dev\nSimone Di Paolo</string>
     <string name="thanks_contribute_string">Thanks for the contribute to:</string>

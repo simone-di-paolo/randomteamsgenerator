@@ -46,7 +46,7 @@ public class MainFragment extends Fragment {
     private ObjectAnimator scaleDown;
     private ConstraintLayout constraintLayout;
     private EditText dialogEditText;
-    private Button firstFragmentSettingsButton;
+    //private Button firstFragmentSettingsButton;
 
     public MainFragment() {
         // Required empty public constructor
@@ -65,7 +65,7 @@ public class MainFragment extends Fragment {
         constraintLayout = v.findViewById(R.id.mainFragmentConstraintLayout);
         bottomAndTopBarInitializer();
 
-        firstFragmentSettingsButton = v.findViewById(R.id.firstFragmentSettingsButton);
+        //firstFragmentSettingsButton = v.findViewById(R.id.firstFragmentSettingsButton);
 
         Button addNameButton = v.findViewById(R.id.addNameButton);
         addNameButton.setOnClickListener(view -> {
@@ -115,12 +115,13 @@ public class MainFragment extends Fragment {
             Log.d("NamesListFragment", "activity it's empty");
         }
 
+        /*
         firstFragmentSettingsButton.setOnClickListener(view1 -> {
             if(ObjectUtils.isNotEmpty(navController)) {
                 navController.navigate(MainFragmentDirections.actionMainFragmentToSettingsFragment());
             }
         });
-
+        */
     }
 
     private MaterialAlertDialogBuilder createDialog(Context context) {

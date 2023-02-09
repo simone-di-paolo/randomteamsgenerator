@@ -67,7 +67,7 @@ public class Utils {
         dialogEditText.setOnFocusChangeListener((view, b) -> dialogEditText.postDelayed(() -> {
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.showSoftInput(dialogEditText, InputMethodManager.SHOW_IMPLICIT);
-        }, 500));
+        }, 300));
         dialogEditText.requestFocus();
     }
 

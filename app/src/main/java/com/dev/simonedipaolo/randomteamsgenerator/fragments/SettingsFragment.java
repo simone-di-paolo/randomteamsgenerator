@@ -3,36 +3,26 @@ package com.dev.simonedipaolo.randomteamsgenerator.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.core.utils.Utils;
-import com.dev.simonedipaolo.randomteamsgenerator.preference.CustomSwitchPreference;
-import com.google.android.material.appbar.MaterialToolbar;
 
 import org.apache.commons.lang3.ObjectUtils;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
-    private static final String SETTINGS_SHARED_PREFERENCES = "is_dark_theme_enabled";
-    private static final String ENABLE_DARK_THEME_KEY = "enable_dark_theme";
+    private static final String MODE_SHARED_PREFERENCES = "mode_shared_preferences";
+    //private static final String ENABLE_DARK_THEME_KEY = "enable_dark_theme";
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor myPrefsPrefsEditor;
@@ -47,7 +37,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         FragmentActivity fragmentActivity = getActivity();
         if(ObjectUtils.isNotEmpty(fragmentActivity)) {
-            sharedPreferences = fragmentActivity.getSharedPreferences(SETTINGS_SHARED_PREFERENCES, Context.MODE_PRIVATE);
+            sharedPreferences = fragmentActivity.getSharedPreferences(MODE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
 
             NavController navController = null;
             NavHostFragment navHostFragment = (NavHostFragment) fragmentActivity.getSupportFragmentManager()
@@ -64,10 +54,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
             // disabling bottom bar
             CoordinatorLayout coordinatorLayout = fragmentActivity.findViewById(R.id.coordinatorLayout);
-            coordinatorLayout.setVisibility(View.GONE);
-            coordinatorLayout.setClickable(false);
+            if(ObjectUtils.isNotEmpty(coordinatorLayout)) {
+                coordinatorLayout.setVisibility(View.GONE);
+                coordinatorLayout.setClickable(false);
+            }
 
-            CustomSwitchPreference darkModeSwitch = findPreference("theme_preference");
+            /*CustomSwitchPreference darkModeSwitch = findPreference("theme_preference");
             if (ObjectUtils.isNotEmpty(darkModeSwitch)) {
 
                 // initializing value of the shared preferences. defaultValue it's false
@@ -80,6 +72,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
                         darkModeSwitch.setChecked((Boolean) newValue);
 
+                        // change to dark mode
+                        if(isDarkThemeEnabled) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        }
+
                         // saving new value in shared preferences
                         myPrefsPrefsEditor = sharedPreferences.edit();
                         myPrefsPrefsEditor.putBoolean(ENABLE_DARK_THEME_KEY, (Boolean) newValue);
@@ -88,7 +87,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                         return true;
                     }
                 });
-            }
+            }*/
+
         }
     }
 

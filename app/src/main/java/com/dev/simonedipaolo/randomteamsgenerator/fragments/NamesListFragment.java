@@ -1,6 +1,5 @@
 package com.dev.simonedipaolo.randomteamsgenerator.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +17,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -109,6 +109,16 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
 
             // FAB
             initializeFAB(activity);
+
+            // Managing system go back
+            // managing go back
+            OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    navController.navigate(NamesListFragmentDirections.actionNamesListFragmentToMainFragment());
+                }
+            };
+            requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
         } else {
             Log.d("NamesListFragment", "activity it's empty");

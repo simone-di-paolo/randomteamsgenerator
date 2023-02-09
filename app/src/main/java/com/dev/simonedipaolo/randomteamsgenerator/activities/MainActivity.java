@@ -10,6 +10,7 @@ import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomappbar.BottomAppBar;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,12 +21,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         MaterialToolbar materialToolbar = findViewById(R.id.materialToolbar);
-        materialToolbar.setTitle(StringUtils.EMPTY);
+        if(ObjectUtils.isNotEmpty(materialToolbar)) {
+            materialToolbar.setTitle(StringUtils.EMPTY);
+        }
+
         setSupportActionBar(materialToolbar);
 
         CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinatorLayout);
-        coordinatorLayout.setVisibility(View.INVISIBLE);
-        BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
+        if(ObjectUtils.isNotEmpty(coordinatorLayout)) {
+            coordinatorLayout.setVisibility(View.INVISIBLE);
+        }
+        //BottomAppBar bottomAppBar = findViewById(R.id.bottomAppBar);
 
     }
 

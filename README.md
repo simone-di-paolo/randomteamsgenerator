@@ -25,6 +25,9 @@ Once done will be published on Play Store and will be completely free.
     <img style="margin-left: 100px" src="./resources/img/third.png" height="500"/>
 </div>
 
+## Google Play Link
+The app is available on Google Play Store at <a href="https://play.google.com/store/apps/details?id=com.dev.simonedipaolo.randomteamsgenerator&pli=1">this link</a>.
+
 ## Contributors
 <div align="left">
   <h4>Thanks for the contribution to:</h4>

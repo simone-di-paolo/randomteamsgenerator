@@ -34,8 +34,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.adapters.PersonRecyclerViewAdapter;
+import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Person;
 import com.dev.simonedipaolo.randomteamsgenerator.core.utils.Utils;
-import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -289,7 +289,7 @@ public class NamesListFragment extends Fragment implements PersonRecyclerViewAda
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
                 int resId = menuItem.getItemId();
                 if(resId == R.id.info) {
-                    new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogInfo_App)
+                    new MaterialAlertDialogBuilder(activity, com.google.android.material.R.style.MaterialAlertDialog_Material3)
                             .setIcon(R.drawable.ic_help_24dp)
                             .setMessage(R.string.help_text)
                             .setPositiveButton(getResources().getString(R.string.continue_string), (dialogInterface, i) -> {

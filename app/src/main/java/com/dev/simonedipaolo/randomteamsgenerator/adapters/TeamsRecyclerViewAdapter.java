@@ -18,9 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Flag;
+import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Person;
 import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Row;
 import com.dev.simonedipaolo.randomteamsgenerator.core.bean.TeamName;
-import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;

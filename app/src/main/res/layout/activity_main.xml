@@ -5,14 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity"
-    android:background="@color/md_theme_light_onPrimary">
+    tools:context=".activities.MainActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/materialToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/md_theme_light_onPrimary"
             app:menu="@menu/top_app_bar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -20,7 +18,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            app:titleTextColor="@color/md_theme_light_onPrimaryContainer">
+            android:background="@color/md_theme_light_primary">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/teamNameTextView"
@@ -34,7 +32,7 @@
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="22dp"
                 tools:text="@string/main_activity_app_title"
-                android:textColor="@color/md_theme_light_onPrimaryContainer"/>
+                android:textColor="@color/md_theme_light_onPrimary"/>
 
         </com.google.android.material.appbar.MaterialToolbar>
 
@@ -66,7 +64,6 @@
             style="@style/Widget.Material3.BottomAppBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@color/md_theme_light_secondaryContainer"
             android:layout_gravity="center_vertical"
             app:elevation="3dp"/>
 
@@ -81,8 +78,8 @@
             android:contentDescription="@string/add_names_floating_button_description"
             android:focusable="true"
             android:src="@drawable/ic_add_white_24dp"
-            app:backgroundTint="@color/md_theme_light_primary"
-            app:tint="@color/md_theme_light_onPrimary" />
+            app:background="@color/md_theme_light_primaryContainer"
+            app:tint="@color/md_theme_light_onPrimaryContainer" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

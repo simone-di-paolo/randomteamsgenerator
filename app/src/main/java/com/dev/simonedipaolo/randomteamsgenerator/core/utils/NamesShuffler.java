@@ -1,6 +1,6 @@
 package com.dev.simonedipaolo.randomteamsgenerator.core.utils;
 
-import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
+import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Person;
 
 import org.apache.commons.lang3.ObjectUtils;
 

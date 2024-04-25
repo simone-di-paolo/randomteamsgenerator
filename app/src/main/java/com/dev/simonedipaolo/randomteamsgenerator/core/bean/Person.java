@@ -1,4 +1,4 @@
-package com.dev.simonedipaolo.randomteamsgenerator.models;
+package com.dev.simonedipaolo.randomteamsgenerator.core.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -15,8 +15,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/md_theme_light_secondaryContainer">
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/teamNameTextView"
@@ -34,7 +33,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.533"
             tools:text="Marco Rossi"
-            android:textColor="@color/md_theme_light_onSecondaryContainer"
             android:textSize="18sp"/>
 
         <androidx.appcompat.widget.AppCompatImageButton

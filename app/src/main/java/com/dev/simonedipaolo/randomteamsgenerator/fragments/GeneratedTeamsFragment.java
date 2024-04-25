@@ -1,6 +1,5 @@
 package com.dev.simonedipaolo.randomteamsgenerator.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,13 +27,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dev.simonedipaolo.randomteamsgenerator.R;
 import com.dev.simonedipaolo.randomteamsgenerator.adapters.TeamsRecyclerViewAdapter;
 import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Flag;
+import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Person;
 import com.dev.simonedipaolo.randomteamsgenerator.core.bean.Row;
 import com.dev.simonedipaolo.randomteamsgenerator.core.bean.TeamName;
 import com.dev.simonedipaolo.randomteamsgenerator.core.utils.NamesShuffler;
 import com.dev.simonedipaolo.randomteamsgenerator.core.utils.RandomFlagGenerator;
 import com.dev.simonedipaolo.randomteamsgenerator.core.utils.RowGenerator;
 import com.dev.simonedipaolo.randomteamsgenerator.core.utils.TeamNameGenerator;
-import com.dev.simonedipaolo.randomteamsgenerator.models.Person;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -219,7 +218,7 @@ public class GeneratedTeamsFragment extends Fragment {
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
                 int resId = menuItem.getItemId();
                 if(resId == R.id.update) {
-                    new MaterialAlertDialogBuilder(activity, R.style.MaterialAlertDialogInfo_App)
+                    new MaterialAlertDialogBuilder(activity, com.google.android.material.R.style.MaterialAlertDialog_Material3)
                             .setIcon(R.drawable.ic_info_24dp)
                             .setMessage(R.string.alert_update_text)
                             .setPositiveButton(getResources().getString(R.string.confirm_string), (dialogInterface, i) -> {

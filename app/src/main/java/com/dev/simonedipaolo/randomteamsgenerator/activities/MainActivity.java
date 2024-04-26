@@ -2,6 +2,7 @@ package com.dev.simonedipaolo.randomteamsgenerator.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 
@@ -42,11 +43,22 @@ public class MainActivity extends AppCompatActivity {
         initializeTheme(newBase);
     }
 
+    /**
+     * Initialize theme with light or dark.
+     * If no shared pref configured, then follow the system configs.
+     * If shared pref exists, then, use it.
+     * @param context => the context where to retrieve the shared preferences.
+     */
     private void initializeTheme(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(CommonConstants.MODE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        boolean isDarkThemeEnabled = sharedPreferences.getBoolean(CommonConstants.ENABLE_DARK_THEME_KEY,false);
-        // change to dark mode
-        Utils.changeTheme(isDarkThemeEnabled);
+        if (sharedPreferences.contains(CommonConstants.ENABLE_DARK_THEME_KEY)) {
+            boolean isDarkThemeEnabled = sharedPreferences.getBoolean(CommonConstants.ENABLE_DARK_THEME_KEY,false);
+            // change to dark mode
+            Utils.changeTheme(isDarkThemeEnabled);
+        } else {
+            boolean isSystemInDarkTheme = (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+            Utils.changeTheme(isSystemInDarkTheme);
+        }
     }
 
 }

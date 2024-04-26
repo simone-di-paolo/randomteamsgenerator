@@ -2,6 +2,7 @@ package com.dev.simonedipaolo.randomteamsgenerator.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -56,8 +58,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     }
 
                     // initialize toolbar
-                    //NavDirections navDirections = SettingsFragmentDirections.actionSettingsFragmentToMainFragment();
-                    //Utils.initializeToolbar(true, fragmentActivity, navController, navDirections, R.string.settings_string, R.anim.from_left);
+                    NavDirections navDirections = SettingsFragmentDirections.actionSettingsFragmentToMainFragment();
+                    Utils.initializeToolbar(true, fragmentActivity, navController, navDirections, R.string.settings_string, R.anim.from_left);
 
                     // disabling bottom bar
                     CoordinatorLayout coordinatorLayout = fragmentActivity.findViewById(R.id.coordinatorLayout);
@@ -70,22 +72,28 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     if (ObjectUtils.isNotEmpty(darkModeSwitch)) {
 
                         // initializing value of the shared preferences. defaultValue it's false
-                        boolean isDarkThemeEnabled = sharedPreferences.getBoolean(CommonConstants.ENABLE_DARK_THEME_KEY, false);
+                        boolean isDarkThemeEnabled = false;
+                        if(sharedPreferences.contains(CommonConstants.ENABLE_DARK_THEME_KEY)) {
+                            isDarkThemeEnabled = sharedPreferences.getBoolean(CommonConstants.ENABLE_DARK_THEME_KEY, false);
+                        } else {
+                            isDarkThemeEnabled = (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+                        }
                         darkModeSwitch.setChecked(isDarkThemeEnabled);
 
                         // switch listener
                         darkModeSwitch.setOnPreferenceChangeListener((preference, newValue) -> {
-                            darkModeSwitch.setChecked((Boolean) newValue);
+                            Boolean newBooleanValue = (Boolean) newValue;
+                            darkModeSwitch.setChecked(newBooleanValue);
 
                             // change to dark mode
-                            Utils.changeTheme((Boolean) newValue);
+                            Utils.changeTheme(newBooleanValue);
 
                             // saving new value in shared preferences
                             myPrefsPrefsEditor = sharedPreferences.edit();
                             myPrefsPrefsEditor.putBoolean(CommonConstants.ENABLE_DARK_THEME_KEY, (Boolean) newValue);
                             myPrefsPrefsEditor.commit();
 
-                            return isDarkThemeEnabled;
+                            return newBooleanValue;
                         });
                     }
 

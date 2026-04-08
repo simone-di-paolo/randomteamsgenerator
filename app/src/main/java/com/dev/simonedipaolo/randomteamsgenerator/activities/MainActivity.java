@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.dev.simonedipaolo.randomteamsgenerator.R;
@@ -21,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Initialize theme before super.onCreate
+        initializeTheme(this);
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -37,12 +41,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(newBase);
-        initializeTheme(newBase);
-    }
-
     /**
      * Initialize theme with light or dark.
      * If no shared pref configured, then follow the system configs.
@@ -52,12 +50,11 @@ public class MainActivity extends AppCompatActivity {
     private void initializeTheme(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(CommonConstants.MODE_SHARED_PREFERENCES, Context.MODE_PRIVATE);
         if (sharedPreferences.contains(CommonConstants.ENABLE_DARK_THEME_KEY)) {
-            boolean isDarkThemeEnabled = sharedPreferences.getBoolean(CommonConstants.ENABLE_DARK_THEME_KEY,false);
-            // change to dark mode
+            boolean isDarkThemeEnabled = sharedPreferences.getBoolean(CommonConstants.ENABLE_DARK_THEME_KEY, false);
             Utils.changeTheme(isDarkThemeEnabled);
         } else {
-            boolean isSystemInDarkTheme = (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-            Utils.changeTheme(isSystemInDarkTheme);
+            // Default to system settings if no preference is set
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
     }
 

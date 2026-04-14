@@ -10,15 +10,20 @@ android {
         applicationId "com.dev.simonedipaolo.randomteamsgenerator"
         minSdk 23
         targetSdk 36
-        versionCode 6
-        versionName "1.3.1"
+        versionCode 7
+        versionName "1.3.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+        }
         release {
-            minifyEnabled true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
